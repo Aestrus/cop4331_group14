@@ -1,6 +1,6 @@
 <?php
   // connect to database
-  $connection_reference = mysqli_connect("localhost", "George", "test1234", "contact_manager");
+  $connection_reference = mysqli_connect("localhost", "test", "testing123", "contact_manager");
 
   // chech connection
   if (!$connection_reference)

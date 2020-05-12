@@ -1,7 +1,7 @@
 <?php
 
   // connect to database
-  $connection_reference = mysqli_connect("localhost", "George", "test1234", "contact_manager");
+  $connection_reference = mysqli_connect("localhost", "test", "testing123", "contact_manager");
 
   // chech connection
   if (!$connection_reference)
@@ -18,7 +18,7 @@
     $phoneNumber = $_POST['phoneNumber'];
 
     // create query to insert into data base
-    $sql = "INSERT INTO list_of_contacts(first_name,last_name,email,phone_number) VALUES ('$firstName','$lastName','$email','$phoneNumber')";
+    $sql = "INSERT INTO list_of_contacts(first_name,last_name,email,phone_number,user_id) VALUES ('$firstName','$lastName','$email','$phoneNumber',0)";
 
     // save to database
     if (mysqli_query($connection_reference, $sql))
