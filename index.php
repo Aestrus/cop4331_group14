@@ -5,7 +5,7 @@
     <!--Tempoaray CSS -->
     <title>Contact Manager</title>
   </head>
-  <body style="color: blue;">
+  <body style="color: tomato;">
     <p>Hello User</p>
     <button type="button" name="logOut" onclick= "location.href = 'signin.php'" >Log Out</button>
     <?php include("templates/update.php") ?>
