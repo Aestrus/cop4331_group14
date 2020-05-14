@@ -11,12 +11,12 @@
     <title>Contact Manager</title>
   </head>
   <body>
-    <p>Sign Up</p>
-    <form class="" action="signin.php" method="POST">
-      <label>Email</label>
-      <input type="text" name="email" value="">
-      <label>Password</label>
-      <input type="text" name="password" value="">
+    <form class="signincontainer" action="signin.php" method="POST">
+      <h1>Sign In</h1>
+      <label for="email"><b>Email<b/></label>
+      <input type="text" name="email" placeholder="example@example.com" required>
+      <label for="password">Password</label>
+      <input type="password" name="password" placeholder="password" required>
       <input type="submit" name="signIn" value="Sign In">
     </form>
   </body>
