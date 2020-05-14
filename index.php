@@ -6,7 +6,7 @@
     <title>Contact Manager</title>
   </head>
   <body>
-    <p>Hello User</p>
+    <p>Hello George</p>
     <button type="button" name="logOut" onclick= "location.href = 'signin.php'" >Log Out</button>
     <?php include("templates/update.php") ?>
     <?php include("templates/delete.php") ?>
