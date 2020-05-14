@@ -7,7 +7,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <!--Tempoaray CSS -->
+    <link rel="stylesheet" type="text/css" href="main.css"></link>
     <title>Contact Manager</title>
   </head>
   <body>
@@ -17,7 +17,7 @@
       <input type="text" name="email" placeholder="example@example.com" required>
       <label for="password">Password</label>
       <input type="password" name="password" placeholder="password" required>
-      <input type="submit" name="signIn" value="Sign In">
+      <button type="submit">Sign in</button>
     </form>
   </body>
 </html>
