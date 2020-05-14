@@ -37,19 +37,3 @@
   // form validation
 
 ?>
-
-
-
-
-<p>Add a Contact</p>
-<form class="" action="index.php" method="POST">
-  <label>First name</label>
-  <input type="text" name="firstName" value="">
-  <label>Last name</label>
-  <input type="text" name="lastName" value="">
-  <label>Email</label>
-  <input type="text" name="email" value="">
-  <label>Phone Number</label>
-  <input type="text" name="phoneNumber" value="">
-  <input type="submit" name="add" value="add">
-</form>
