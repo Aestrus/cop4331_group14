@@ -34,25 +34,3 @@
   // print results
   // print_r($contacts);
 ?>
-
-<p>List of Contacts</p>
-<ul>
-  <?php foreach($contacts as $contact) { ?>
-    <li>
-      <form class="" action="index.php" method="POST">
-        <label>First name</label>
-        <input type="text" name="firstName" value="<?php echo $contact['first_name'] ?>">
-        <label>Last name</label>
-        <input type="text" name="lastName" value="<?php echo $contact['last_name'] ?>">
-        <label>Email</label>
-        <input type="text" name="email" value="<?php echo $contact['email'] ?>">
-        <label>Phone Number</label>
-        <input type="text" name="phoneNumber" value="<?php echo $contact['phone_number'] ?>">
-        <input type="submit" name="update" value="update">
-        <input type="submit" name="delete" value= "delete">
-        <input type="reset">
-        <input type="hidden" name="contact_id" value="<?php echo $contact['contact_id'] ?> ">
-      </form>
-    </li>
-  <?php } ?>
-</ul>

@@ -1,5 +1,7 @@
 <?php
 
+  $indata = json_decode('php://input', true);
+
   // connect to database
   $connection_reference = mysqli_connect("localhost", "test", "testing123", "contact_manager");
 

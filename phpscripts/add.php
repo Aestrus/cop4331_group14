@@ -1,39 +1,47 @@
+<!-- from professor Leinker -->
 <?php
+	$inData = getRequestInfo();
 
-  // connect to database
-  $connection_reference = mysqli_connect("localhost", "test", "testing123", "contact_manager");
+  $firstName = $inData["firstName"];
+  $lastName = $inData["lastName"];
+  $email = $inData["email"];
+  $phoneNumber = $inData["phoneNumber"];
+  $userId = (int)$inData["userId"];
 
-  // chech connection
-  if (!$connection_reference)
-  {
-    echo "Problem connecting to the database".mysqli_connect_error();
-  }
+	$conn = new mysqli("localhost", "test", "testing123", "contact_manager");
+	if ($conn->connect_error) 
+	{
+		returnWithError( $conn->connect_error );
+	} 
+	else
+	{
+		$sql = "INSERT INTO list_of_contacts(first_name,last_name,email,phone_number,user_id) VALUES ('$firstName','$lastName','$email','$phoneNumber','$userId')";
+		if( $result = $conn->query($sql) != TRUE )
+		{
+			returnWithError( $conn->error );
+		}
+		$conn->close();
+	}
+	
+  // returnWithError($firstName." ".$lastName." ".$email." ".$phoneNumber." ".$userId);
+  
+  returnWithError("");
+	
+	function getRequestInfo()
+	{
+		return json_decode(file_get_contents('php://input'), true);
+	}
 
-  // check if they hit the submit button
-  if (isSet($_POST['add']))
-  {
-    $firstName = $_POST['firstName'];
-    $lastName = $_POST['lastName'];
-    $email = $_POST['email'];
-    $phoneNumber = $_POST['phoneNumber'];
-
-    // create query to insert into data base
-    $sql = "INSERT INTO list_of_contacts(first_name,last_name,email,phone_number,user_id) VALUES ('$firstName','$lastName','$email','$phoneNumber',0)";
-
-    // save to database
-    if (mysqli_query($connection_reference, $sql))
-    {
-      header('Location: index.php');
-    }
-    else {
-      echo 'error inserting data into database' . mysqli_error($connection_reference);
-    }
-  }
-
-  // close connection to database
-  mysqli_close($connection_reference);
-
-  // secure against attacks
-  // form validation
-
+	function sendResultInfoAsJson( $obj )
+	{
+		header('Content-type: application/json');
+		echo $obj;
+	}
+	
+	function returnWithError( $err )
+	{
+		$retValue = '{"error":"' . $err . '"}';
+		sendResultInfoAsJson( $retValue );
+	}
+	
 ?>
