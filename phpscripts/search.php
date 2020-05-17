@@ -1,5 +1,5 @@
 <?php
-
+	// source from professor Leinker
 	$inData = getRequestInfo();
   
   $search = $inData["search"];
