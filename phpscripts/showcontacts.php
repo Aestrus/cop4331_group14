@@ -1,36 +1,50 @@
 <?php
-  // connect to database
-  $connection_reference = mysqli_connect("localhost", "test", "testing123", "contact_manager");
+	// source from professor Leinker
+	$inData = getRequestInfo();
 
-  // chech connection
-  if (!$connection_reference)
-  {
-    echo "Problem connecting to the database".mysqli_connect_error();
-  }
+  $userId = (int)$inData["userId"];
 
-  // write query for all contacts
-  if (isSet($_POST['searchType']))
-  {
-    $_searchType = $_POST['searchType'];
-    $sql = "Select contact_id, first_name, last_name, email, phone_number, user_id FROM list_of_contacts ORDER BY $_searchType";
-  }
-  else
-  {
-    $sql = "SELECT contact_id, first_name, last_name, email, phone_number, user_id FROM list_of_contacts"; // sort by order by later
-  }
+	// connecting to the database
+	$conn = new mysqli("localhost", "test", "testing123", "contact_manager");
 
-  // execute query and get results
-  $results = mysqli_query($connection_reference, $sql);
+	// check connection
+	if ($conn->connect_error) 
+	{
+		returnWithError( $conn->connect_error );
+	} 
+	else
+	{
+		// create query for sql
+    $sql = "SELECT contact_id, first_name, last_name, email, phone_number FROM list_of_contacts";
+    
+    // $sql = "SELECT contact_id, first_name, last_name, email, phone_number FROM list_of_contacts WHERE user_id = $userId";
 
-  // fetch the resulting rows as an array
-  $contacts = mysqli_fetch_all($results, MYSQLI_ASSOC);
+		// execute query and see if it goes through
+		if( $result = $conn->query($sql) != TRUE )
+		{
+			returnWithError( $conn->error );
+		}
+    $conn->close();
+    
+	}
+  
+  returnWithError("");
+	
+	function getRequestInfo()
+	{
+		return json_decode(file_get_contents('php://input'), true);
+	}
 
-  // free from memory
-  mysqli_free_result($results);
-
-  // close connection to database
-  mysqli_close($connection_reference);
-
-  // print results
-  // print_r($contacts);
+	function sendResultInfoAsJson( $obj )
+	{
+		header('Content-type: application/json');
+		echo $obj;
+	}
+	
+	function returnWithError( $err )
+	{
+		$retValue = '{"error":"' . $err . '"}';
+		sendResultInfoAsJson( $retValue );
+	}
+	
 ?>
