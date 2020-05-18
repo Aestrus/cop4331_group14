@@ -83,7 +83,7 @@ function doSignin()
     updateResultFieldWithError(false, "signinResult", "Login successful. Welcome "+ firstName + " " + lastName + ". Redirecting you to the home page.");
 
     saveCookie();
-    goHome();
+    goContacts();
   }
 
   catch(err)
@@ -120,4 +120,9 @@ function saveCookie()
 function goHome()
 {
   setTimeout(function(){ window.location.href = "index.html"; }, 5000);
+}
+
+function goContacts()
+{
+  setTimeout(function(){ window.location.href = "contacts.html"; }, 5000);
 }
