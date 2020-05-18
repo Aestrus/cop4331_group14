@@ -7,6 +7,7 @@
     $email = $inData["email"];
     $password = $inData["password"];
     $userId = (int)$inData["userId"];
+    $searchResults = "";
 
     // connect to database
     $conn = new mysqli("localhost", "test", "testing123", "contact_manager");
@@ -26,10 +27,20 @@
         {
             returnWithError( $conn->error);
         }
+        // return user_id
+        $sql = "SELECT user_id from list_of_users where email = '$email' and password = '$password'";
+        if ( $result = $conn->query($sql) != TRUE)
+        {
+            returnWithError( $conn->error);
+        }
+        $result = $conn->query($sql);
+        $row = $result->fetch_assoc();
+        $searchResults .= $row["user_id"];
         // close connection
         mysqli_close($conn);
-    }   
-    returnWithError("");
+    }    
+    
+    returnWithInfo( $searchResults );
 
     function getRequestInfo()
 	{
@@ -45,6 +56,12 @@
 	function returnWithError( $err )
 	{
 		$retValue = '{"error":"' . $err . '"}';
+		sendResultInfoAsJson( $retValue );
+    }
+    
+    function returnWithInfo( $searchResults )
+	{
+		$retValue = '{"results":' . $searchResults . ',"error":""}';
 		sendResultInfoAsJson( $retValue );
 	}
 ?>
