@@ -12,7 +12,7 @@
     if ($conn->connection_error)
     {
         returnWithError( $conn->connection_error );
-    }
+    } 
     else
     {
         // create query for sql
@@ -21,16 +21,21 @@
         if ($result->num_rows > 0)
         {
             $row = $result->fetch_assoc();
-            $searchResults .= $row["user_id"];
+            $userID .= $row["user_id"];
+            $firstName .= $row["first_name"];
+            $lastName .= $row["last_name"];
         }
         else
         {
-            $searchResults .= "No Result Found";
+            $userID .= "-1";
+            $firstName .= "";
+            $lastName .= "";
+            $email = "";
         }
 
     }
 	
-	returnWithInfo( $searchResults );
+	returnWithInfo( $userID, $firstName, $lastName, $email);
 
 	function getRequestInfo()
 	{
@@ -43,9 +48,15 @@
 		echo $obj;
 	}
 	
-	function returnWithInfo( $searchResults )
+	function returnWithInfo( $userID, $firstName, $lastName, $email)
 	{
-		$retValue = '{"results":' . $searchResults . ',"error":""}';
+    $retValue = '{' .
+      '"userID":' . $userID . ',' .
+      '"firstName":"' . $firstName . '",' .
+      '"lastName":"' . $lastName . '",' .
+      '"email":"' . $email . '",' .
+      '"error":""' .
+      '}';
 		sendResultInfoAsJson( $retValue );
 	}
 ?>
