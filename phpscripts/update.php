@@ -1,43 +1,51 @@
-
 <?php
+	// source from professor Leinker
+	$inData = getRequestInfo();
 
-// connect to database
-$connection_reference = mysqli_connect("localhost", "test", "testing123", "contact_manager");
+  $contactId = (int)$inData['contactId'];
+  $firstName = $inData["firstName"];
+  $lastName = $inData["lastName"];
+  $email = $inData["email"];
+  $phoneNumber = $inData["phoneNumber"];
 
-// chech connection
-if (!$connection_reference)
-{
-  echo "Problem connecting to the database".mysqli_connect_error();
-}
+	// connecting to the database
+	$conn = new mysqli("localhost", "test", "testing123", "contact_manager");
 
-// check if they hit the update button
-if (isSet($_POST['update']))
-{
-  echo "updating contact with contact_id ".$_POST['contact_id'];
-  $firstName = $_POST['firstName'];
-  $lastName = $_POST['lastName'];
-  $email = $_POST['email'];
-  $phoneNumber = $_POST['phoneNumber'];
-  $contactId = $_POST['contact_id'];
+	// check connection
+	if ($conn->connect_error) 
+	{
+		returnWithError( $conn->connect_error );
+	} 
+	else
+	{
+		// create query for sql
+		$sql = "UPDATE list_of_contacts SET first_name = '$firstName',last_name = '$lastName',email = '$email',phone_number = '$phoneNumber' WHERE contact_id = '$contactId'";
 
-  // create query to insert into data base
-  $sql = "UPDATE list_of_contacts SET first_name = '$firstName',last_name = '$lastName',email = '$email',phone_number = '$phoneNumber' WHERE contact_id = '$contactId'";
-
-  // execute query and update
-  if (mysqli_query($connection_reference, $sql))
-  {
-    header('Location: index.php');
+		// execute query and see if it goes through
+		if( $result = $conn->query($sql) != TRUE )
+		{
+			returnWithError( $conn->error );
+		}
+		$conn->close();
   }
-  else {
-    echo 'error updating data in database' . mysqli_error($connection_reference);
-  }
+  
+  returnWithError("");
+	
+	function getRequestInfo()
+	{
+		return json_decode(file_get_contents('php://input'), true);
+	}
 
-
-  // print_r($_POST);
-}
-
-// close connection to database
-mysqli_close($connection_reference);
-
+	function sendResultInfoAsJson( $obj )
+	{
+		header('Content-type: application/json');
+		echo $obj;
+	}
+	
+	function returnWithError( $err )
+	{
+		$retValue = '{"error":"' . $err . '"}';
+		sendResultInfoAsJson( $retValue );
+	}
+	
 ?>
-
