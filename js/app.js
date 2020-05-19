@@ -117,9 +117,51 @@ function saveCookie()
 	document.cookie = "firstName=" + firstName + ",lastName=" + lastName + ",userID=" + userID + ";expires=" + date.toGMTString();
 }
 
+
+function readCookie()
+{
+
+  var userID = -1;
+
+  var data = document.cookie;
+  var splits = data.split(",");
+  console.log(splits);
+
+  for(var i = 0; i < splits.length; i++){
+    var current = splits[i].trim();
+    var tokens = current.split("=");
+    if(tokens[0] == "firstName")
+    {
+      firstName = tokens[1];
+    }
+    if(tokens[0] == "lastName")
+    {
+      lastName = tokens[1];
+    }
+    if(tokens[0] == "userID")
+    {
+      userID = tokens[1];
+    }
+  }
+
+  if(userID < 0)
+  {
+    goHome(0);
+  }
+  else
+  {
+  }
+
+}
+
 function goHome()
 {
   setTimeout(function(){ window.location.href = "index.html"; }, 5000);
+}
+
+function goHome(time)
+{
+  setTimeout(function(){ window.location.href = "index.html"; }, time);
 }
 
 function goContacts()

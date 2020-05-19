@@ -7,9 +7,10 @@
     <!--Tempoaray CSS -->
     <title>Contact Manager</title>
   </head>
-  <body>
+  <body onload="readCookie();">
     <div id="content">
       <h1>Add a Contact</h1>
+      <span id="contactsResult"></span>
       <form class="" action="index.php" method="POST">
         <label>First name</label>
         <input type="text" name="firstName" value="">
