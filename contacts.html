@@ -10,29 +10,36 @@
   <body onload="readCookie();">
     <div id="content">
       <h1>Add a Contact</h1>
+      <a href="index.html">Home</a>
+      <br />
       <span id="contactsResult"></span>
-      <form class="" action="index.php" method="POST">
+      <div id="" class="">
         <label>First name</label>
-        <input type="text" name="firstName" value="">
+        <input type="text" name="firstName" id="addFirstName" placeholder="First Name" value="">
         <label>Last name</label>
-        <input type="text" name="lastName" value="">
+        <input type="text" name="lastName" id="addLastName" placeholder="Last Name"value="">
         <label>Email</label>
-        <input type="text" name="email" value="">
+        <input type="text" name="email" id="addEmail" placeholder="address@example.com" value="">
         <label>Phone Number</label>
-        <input type="text" name="phoneNumber" value="">
-        <input type="submit" name="add" value="add">
-      </form>
+        <input type="text" name="phoneNumber" id="addPhone"placeholder="311-555-2368" value="">
+        <button type="button" id="addButton" onclick="doAdd();" >Add user</button>
+        <span id="addResult"></span>
+      </div>
 
       <p>Search a Contact</p>
-      <form class="" action="index.php" method="post">
-        <input type="text" name="whatToSearch" value="">
-        <input type="submit" name="search" value="search">
-      </form>
+      <div id="" class="">
+        <label>Search contacts:</label>
+        <input type="text" id="searchBar" name="whatToSearch" value="">
+        <button type="button" id="searchButton" onclick="doSearch();">Search</button>
+        <span id="searchResult"></span>
+        <p id="contactsList">
+        </p>
+      </div>
 
       <p>Searched List</p>
       <ul>
           <li>
-            <form class="" action="index.php" method="POST">
+            <div class="">
               <label>First name</label>
               <input type="text" name="firstName" value="">
               <label>Last name</label>
@@ -41,29 +48,28 @@
               <input type="text" name="email" value="">
               <label>Phone Number</label>
               <input type="text" name="phoneNumber" value="">
-              <input type="submit" name="update" value="update">
-              <input type="submit" name="delete" value= "delete">
-              <input type="reset">
-              <input type="hidden" name="contact_id" value="">
-            </form>
+              <button type="button" id="updateButton" onclick="doUpdate();">Update</button>
+              <button type="button" id="deleteButton" onclick="doDelete()">Delete</button>
+              <button type="button" id="resetButton" onclick="doReset();">Reset</button>
+            </div>
           </li>
       </ul>
 
 
 
       <p>Filter By</p>
-      <form class="" action="index.php" method="POST">
-        <input type="submit" name="searchType" value="created_at">
-        <input type="submit" name="searchType" value="first_name">
-        <input type="submit" name="searchType" value="last_name">
-        <input type="submit" name="searchType" value="email">
-        <input type="submit" name="searchType" value="phone_number">
-      </form>
+      <div class="">
+        <button type="button" name="searchType" value="created_at">Created at</button>
+        <button type="button" name="searchType" value="first_name">First Name</button>
+        <button type="button" name="searchType" value="last_name">Last Name</button>
+        <button type="button" name="searchType" value="email">Email</button>
+        <button type="button" name="searchType" value="phone_number">Phone number</button>
+      </div>
 
       <p>List of Contacts</p>
       <ul>
           <li>
-            <form class="" action="index.php" method="POST">
+            <div class="">
               <label>First name</label>
               <input type="text" name="firstName" value="">
               <label>Last name</label>
@@ -72,11 +78,11 @@
               <input type="text" name="email" value="">
               <label>Phone Number</label>
               <input type="text" name="phoneNumber" value="">
-              <input type="submit" name="update" value="update">
-              <input type="submit" name="delete" value= "delete">
+              <button type="button" onclick="doUpdate();">Update</button>
+              <button type="button" onclick="doDelete()">Delete</button>
               <input type="reset">
               <input type="hidden" name="contact_id" value="">
-            </form>
+            </div>
           </li>
       </ul>
     </div>

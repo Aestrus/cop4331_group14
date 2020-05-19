@@ -21,13 +21,13 @@
         if ($result->num_rows > 0)
         {
             $row = $result->fetch_assoc();
-            $userID .= $row["user_id"];
+            $userId .= $row["user_id"];
             $firstName .= $row["first_name"];
             $lastName .= $row["last_name"];
         }
         else
         {
-            $userID .= "-1";
+            $userId .= "-1";
             $firstName .= "";
             $lastName .= "";
             $email = "";
@@ -35,7 +35,7 @@
 
     }
 	
-	returnWithInfo( $userID, $firstName, $lastName, $email);
+	returnWithInfo( $userId, $firstName, $lastName, $email);
 
 	function getRequestInfo()
 	{
@@ -48,10 +48,10 @@
 		echo $obj;
 	}
 	
-	function returnWithInfo( $userID, $firstName, $lastName, $email)
+	function returnWithInfo( $userId, $firstName, $lastName, $email)
 	{
     $retValue = '{' .
-      '"userID":' . $userID . ',' .
+      '"userId":' . $userId . ',' .
       '"firstName":"' . $firstName . '",' .
       '"lastName":"' . $lastName . '",' .
       '"email":"' . $email . '",' .
