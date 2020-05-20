@@ -24,7 +24,12 @@
 					$searchResults .= ",\n";
 				}
 				$searchCount++;
-				$searchResults .= 'firstName:' . $row["first_name"] . ' lastName:' . $row["last_name"] . ' email:' . $row["email"] . ' phoneNumber:' . $row["phone_number"] . ' contactId:'. $row["contact_id"] ;
+        $searchResults .= '{"firstName":"' . $row["first_name"] .
+          '", "lastName":"' . $row["last_name"] .
+          '", "email":"' . $row["email"] .
+          '", "phoneNumber":"' . $row["phone_number"] .
+          '", "contactId":"'. $row["contact_id"] .
+          '"}' ;
 			}
 		}
 		else

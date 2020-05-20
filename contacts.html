@@ -7,9 +7,9 @@
     <!--Tempoaray CSS -->
     <title>Contact Manager</title>
   </head>
-  <body onload="readCookie();">
+  <body onload="readCookie(); doGetContacts();">
     <div id="content">
-      <h1>Add a Contact</h1>
+      <h2>Add a Contact</h2>
       <a href="index.html">Home</a>
       <br />
       <span id="contactsResult"></span>
@@ -26,7 +26,7 @@
         <span id="addResult"></span>
       </div>
 
-      <p>Search a Contact</p>
+      <h2>Search a Contact</h2>
       <div id="" class="">
         <label>Search contacts:</label>
         <input type="text" id="searchBar" name="whatToSearch" value="">
@@ -36,7 +36,7 @@
         </p>
       </div>
 
-      <p>Searched List</p>
+      <h2>Searched List</h2>
       <ul>
           <li>
             <div class="">
@@ -57,7 +57,7 @@
 
 
 
-      <p>Filter By</p>
+      <h2>Filter By</h2>
       <div class="">
         <button type="button" name="searchType" value="created_at">Created at</button>
         <button type="button" name="searchType" value="first_name">First Name</button>
@@ -66,25 +66,10 @@
         <button type="button" name="searchType" value="phone_number">Phone number</button>
       </div>
 
-      <p>List of Contacts</p>
-      <ul>
-          <li>
-            <div class="">
-              <label>First name</label>
-              <input type="text" name="firstName" value="">
-              <label>Last name</label>
-              <input type="text" name="lastName" value="">
-              <label>Email</label>
-              <input type="text" name="email" value="">
-              <label>Phone Number</label>
-              <input type="text" name="phoneNumber" value="">
-              <button type="button" onclick="doUpdate();">Update</button>
-              <button type="button" onclick="doDelete()">Delete</button>
-              <input type="reset">
-              <input type="hidden" name="contact_id" value="">
-            </div>
-          </li>
-      </ul>
+      <h2>List of Contacts</h2>
+      <ul id="listOfContacts" ></ul>
     </div>
+    <button type="button" id="signOutButton" onclick="deleteCookie(); goHome(0);" >Sign out</button>
+        
   </body>
 </html>

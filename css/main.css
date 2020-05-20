@@ -48,3 +48,22 @@ button:hover {
 .errorMessage {
   color:tomato;
 }
+
+.contactList {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.contactId {
+  display: none;
+}
+
+.listButton
+{
+  width: 100px;
+}
+
+.editHidden
+{
+  display: none;
+}
