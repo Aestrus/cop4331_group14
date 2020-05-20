@@ -1,35 +1,47 @@
 <?php
+	// source from professor Leinker
+	$inData = getRequestInfo();
 
-// connect to database
-$connection_reference = mysqli_connect("localhost", "test", "testing123", "contact_manager");
+  $contact_id = (int)$inData['contactId'];
 
-// chech connection
-if (!$connection_reference)
-{
-  echo "Problem connecting to the database".mysqli_connect_error();
-}
+	// connecting to the database
+	$conn = new mysqli("localhost", "test", "testing123", "contact_manager");
 
-// check if they hit the delete button
-if (isSet($_POST['delete']))
-{
-  echo "deleteing contact with contact_id ".$_POST['contact_id'];
-  $contact_id = $_POST['contact_id'];
+	// check connection
+	if ($conn->connect_error) 
+	{
+		returnWithError( $conn->connect_error );
+	} 
+	else
+	{
+		// create query for sql
+		$sql = "DELETE FROM list_of_contacts WHERE contact_id = $contact_id";
 
-  // make query to delete contact
-  $sql = "DELETE FROM list_of_contacts WHERE contact_id = $contact_id";
+		// execute query and see if it goes through
+		if( $result = $conn->query($sql) != TRUE )
+		{
+			returnWithError( $conn->error );
+		}
+		$conn->close();
+	}
+  
+  returnWithError("");
+	
+	function getRequestInfo()
+	{
+		return json_decode(file_get_contents('php://input'), true);
+	}
 
-  // execute query to delete
-  if (mysqli_query($connection_reference,$sql))
-  {
-    header("Location: index.php");
-  }
-  else
-  {
-    echo "failed to delete id from database".mysqli_error($connection_reference);
-  }
-}
-
-// close connection to database
-mysqli_close($connection_reference);
-
+	function sendResultInfoAsJson( $obj )
+	{
+		header('Content-type: application/json');
+		echo $obj;
+	}
+	
+	function returnWithError( $err )
+	{
+		$retValue = '{"error":"' . $err . '"}';
+		sendResultInfoAsJson( $retValue );
+	}
+	
 ?>
