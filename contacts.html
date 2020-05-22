@@ -8,12 +8,12 @@
     <title>Contact Manager</title>
   </head>
   <body onload="readCookie(); doGetContacts();">
+    <p>Hello User</p>
+    <button type="button" id="signOutButton" onclick="deleteCookie(); goHome(0);" >Sign out</button>
     <div id="content">
       <h2>Add a Contact</h2>
-      <a href="index.html">Home</a>
-      <br />
       <span id="contactsResult"></span>
-      <div id="" class="">
+      <div id="" class="addContact">
         <label>First name</label>
         <input type="text" name="firstName" id="addFirstName" placeholder="First Name" value="">
         <label>Last name</label>
@@ -21,13 +21,13 @@
         <label>Email</label>
         <input type="text" name="email" id="addEmail" placeholder="address@example.com" value="">
         <label>Phone Number</label>
-        <input type="text" name="phoneNumber" id="addPhone"placeholder="311-555-2368" value="">
+        <input type="text" name="phoneNumber" id="addPhone"placeholder="123-456-7890" value="">
         <button type="button" id="addButton" onclick="doAdd();" >Add user</button>
         <span id="addResult"></span>
       </div>
 
       <h2>Search a Contact</h2>
-      <div id="" class="">
+      <div id="" class="searchContact">
         <label>Search contacts:</label>
         <input type="text" id="searchBar" name="whatToSearch" value="">
         <button type="button" id="searchButton" onclick="doSearch();">Search</button>
@@ -36,29 +36,8 @@
         </p>
       </div>
 
-      <h2>Searched List</h2>
-      <ul>
-          <li>
-            <div class="">
-              <label>First name</label>
-              <input type="text" name="firstName" value="">
-              <label>Last name</label>
-              <input type="text" name="lastName" value="">
-              <label>Email</label>
-              <input type="text" name="email" value="">
-              <label>Phone Number</label>
-              <input type="text" name="phoneNumber" value="">
-              <button type="button" id="updateButton" onclick="doUpdate();">Update</button>
-              <button type="button" id="deleteButton" onclick="doDelete()">Delete</button>
-              <button type="button" id="resetButton" onclick="doReset();">Reset</button>
-            </div>
-          </li>
-      </ul>
-
-
-
       <h2>Filter By</h2>
-      <div class="">
+      <div class="filterContact">
         <button type="button" name="searchType" value="created_at">Created at</button>
         <button type="button" name="searchType" value="first_name">First Name</button>
         <button type="button" name="searchType" value="last_name">Last Name</button>
@@ -66,10 +45,11 @@
         <button type="button" name="searchType" value="phone_number">Phone number</button>
       </div>
 
-      <h2>List of Contacts</h2>
-      <ul id="listOfContacts" ></ul>
+      <div class="showContacts">
+        <h2>List of Contacts</h2>
+        <ul id="listOfContacts" ></ul>
+      </div>
     </div>
-    <button type="button" id="signOutButton" onclick="deleteCookie(); goHome(0);" >Sign out</button>
         
   </body>
 </html>

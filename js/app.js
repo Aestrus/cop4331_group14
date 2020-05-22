@@ -426,3 +426,13 @@ function goContacts()
 {
   setTimeout(function(){ window.location.href = "contacts.html"; }, 0000);
 }
+
+function goSignUp()
+{
+  setTimeout(function(){ window.location.href = "signup.html"; }, 0000);
+}
+
+function goForgetPassword()
+{
+  setTimeout(function(){ window.location.href = "forgotPassword.html"; }, 0000);
+}
