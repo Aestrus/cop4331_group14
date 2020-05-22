@@ -27,6 +27,7 @@
 				$searchCount++;
 				$searchResults .= '{"firstName":"' . $row["first_name"] . '","lastName":"' . $row["last_name"] . '","email":"' . $row["email"] . '","phoneNumber":"' . $row["phone_number"] . '","contactId":"'. $row["contact_id"].'"}' ;
 			}
+			returnWithInfo( $searchResults );
 		}
 		else
 		{
@@ -34,8 +35,6 @@
 		}
 		$conn->close();
 	}
-
-	returnWithInfo( $searchResults );
 
 	function getRequestInfo()
 	{
@@ -50,7 +49,7 @@
 	
 	function returnWithError( $err )
 	{
-		$retValue = '{"id":0,"firstName":"","lastName":"","error":"' . $err . '"}';
+		$retValue = '{"error":"' . $err . '"}';
 		sendResultInfoAsJson( $retValue );
 	}
 	

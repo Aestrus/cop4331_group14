@@ -181,21 +181,42 @@ function doSearch()
         
         console.log(xhr.response);  
         var jsonObject = JSON.parse( xhr.response );
-        console.log(jsonObject);
         
+        var theList = document.getElementById("listOfContacts");
+
+        if (jsonObject.error == "No Records Found")
+        {
+          theList.innerHTML += "<li>";
+          theListElement = theList.getElementsByTagName("li")[0];
+          theListElement.innerHTML += "<span class=\"contactList listFName\">No Results Found</span>";
+          return;
+        }
+
+        listOfContacts = jsonObject.results;
+
         for(var i = 0;i < jsonObject.results.length; i++)
         {
-          
-          contactsList.innerHTML += jsonObject.results[i];
-          console.log(jsonObject.results);
-          console.log(contactsList);
+          var firstName = listOfContacts.results[i].firstName;
+          var lastName = listOfContacts.results[i].lastName;
+          var email = listOfContacts.results[i].email;
+          var phoneNumber = listOfContacts.results[i].phoneNumber;
+          var contactId = listOfContacts.results[i].contactId;
+
+          theList.innerHTML += "<li>";
+      
+          theListElement = theList.getElementsByTagName("li")[i];
+    
+          theListElement.innerHTML += "<span class=\"contactList listFName\">" + firstName + "</span>";
+          theListElement.innerHTML += "<span class=\"contactList listLName\">" + lastName + "</span>";
+          theListElement.innerHTML += "<span class=\"contactList listEmail\">" + email + "</span>";
+          theListElement.innerHTML += "<span class=\"contactList listPhone\">" + phoneNumber + "</span>";
+          theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doEdit(" + i + ");\">Edit</button>";
+          theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doDelete(" + listOfContacts.results[i].contactId + "); reload(); doGetContacts(); \">Delete</button>";
           if(i < jsonObject.results.length -1)
           {
             contactsList += "<br />\r\n";
           }
         }
-        console.log(typeof(contactsList));
-        document.getElementsByTagName("p")[0].innerHTML = contactsList;
       }
     };
 		xhr.send(jsonPayload);
@@ -231,6 +252,16 @@ function doGetContacts()
 
     var theList = document.getElementById("listOfContacts");
 
+    if (jsonObject.error == "No Records Found")
+    {
+      theList.innerHTML += "<li>";
+      theListElement = theList.getElementsByTagName("li")[0];
+      theListElement.innerHTML += "<span class=\"contactList listFName\">No Results Found</span>";
+      return;
+    }
+
+    console.log(listOfContacts);
+
     for (var i = 0; i < listOfContacts.results.length; i++){
       // do stuff
       var firstName = listOfContacts.results[i].firstName;
@@ -257,8 +288,8 @@ function doGetContacts()
 
   catch(err)
   {
-    //console.log("something went wrong");
-    //updateResultFieldWithError(true, "addResult", err.message);
+    console.log("something went wrong");
+    updateResultFieldWithError(true, "addResult", err.message);
   }
 
 }
