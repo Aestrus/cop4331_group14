@@ -7,10 +7,10 @@
     <!--Tempoaray CSS -->
     <title>Contact Manager</title>
   </head>
-  <body onload="readCookie(); doGetContacts();">
+  <body onload="readCookie(); updateName(); doGetContacts();">
 
     <div id="header">
-      <h2>Hello User(firstname)</h2>
+      <h2 id="userFirstname">Hello User(firstname)</h2>
       <button type="button" id="signOutButton" onclick="deleteCookie(); goSignIns();" >Sign out</button>
     </div>
 
@@ -49,32 +49,34 @@
         <input type="text" name="phoneNumber" id="addPhone"placeholder="123-456-7890" value="">
       </div>
       <br>
-      <button type="button" id="addButton" onclick="doAdd();" >Add Contact</button>
+      <button type="button" id="addButton" onclick="doAdd(); reload(); doGetContacts();" >Add Contact</button>
       <span id="addResult"></span>
     </div>
 
     <div id="edit">
       <h2>Edit a Contact</h2>
+      <div  id="togglehide" class="hide">
       <span id="contactsResult"></span>
       <div>
-        <label>First name</label>
-        <input type="text" name="firstName" id="updateFirstName" placeholder="First Name" value="">
+          <label>First name</label>
+          <input type="text" name="firstName" id="updateFirstName" placeholder="First Name" value="">
+        </div>
+        <div>
+          <label>Last name</label>
+          <input type="text" name="lastName" id="updateLastName" placeholder="Last Name"value="">
+        </div>
+        <div>
+          <label>Email</label>
+          <input type="text" name="email" id="updateEmail" placeholder="address@example.com" value="">
+        </div>
+        <div>
+          <label>Phone Number</label>
+          <input type="text" name="phoneNumber" id="updatePhone"placeholder="123-456-7890" value="">
+        </div>
+        <br>
+        <button type="button" id="updateButton" onclick="doUpdate(); reload(); doGetContacts();" >Update Contact</button>
+        <span id="updateResult"></span>
       </div>
-      <div>
-        <label>Last name</label>
-        <input type="text" name="lastName" id="updateLastName" placeholder="Last Name"value="">
-      </div>
-      <div>
-        <label>Email</label>
-        <input type="text" name="email" id="updateEmail" placeholder="address@example.com" value="">
-      </div>
-      <div>
-        <label>Phone Number</label>
-        <input type="text" name="phoneNumber" id="updatePhone"placeholder="123-456-7890" value="">
-      </div>
-      <br>
-      <button type="button" id="updateButton" onclick="doUpdate();" >Update Contact</button>
-      <span id="updateResult"></span>
     </div>
 
     <div id="showContacts">

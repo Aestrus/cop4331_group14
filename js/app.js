@@ -1,8 +1,20 @@
 var urlBase = 'localhost';
 var extension = 'php';
 var userId = 0;
+var userFirstName;
 
 var listOfContacts;
+var toggleindex = -1;
+
+function updateName()
+{
+  document.getElementById("userFirstname").innerHTML = "Hello " + userFirstName;
+}
+
+function reload()
+{
+  document.getElementById("listOfContacts").innerHTML = "";
+}
 
 function doSignup()
 {
@@ -98,9 +110,13 @@ function doSignout()
 function doAdd()
 {
   var firstName = document.getElementById("addFirstName").value;
+  document.getElementById("addFirstName").value = "";
   var lastName = document.getElementById("addLastName").value;
+  document.getElementById("addLastName").value = "";
   var email = document.getElementById("addEmail").value;
+  document.getElementById("addEmail").value = "";
   var phone = document.getElementById("addPhone").value;
+  document.getElementById("addPhone").value = "";
   
   var jsonPayload = '{'+
   '"firstName" : "' + firstName + '", ' +
@@ -231,24 +247,9 @@ function doGetContacts()
       theListElement.innerHTML += "<span class=\"contactList listLName\">" + lastName + "</span>";
       theListElement.innerHTML += "<span class=\"contactList listEmail\">" + email + "</span>";
       theListElement.innerHTML += "<span class=\"contactList listPhone\">" + phoneNumber + "</span>";
-      theListElement.innerHTML += "<span class=\"contactList contactId\">" + contactId + "</span>";
-      theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doEdit(" + contactId + ");\">Edit</button>";
-      theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doDelete(" + listOfContacts.results[i].contactId + ")\">Delete</button>";
-      theListElement.innerHTML += "<div id=\"listOfContacts" + contactId + "\" class=\"editForm editHidden\">";
+      theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doEdit(" + i + ");\">Edit</button>";
+      theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doDelete(" + listOfContacts.results[i].contactId + "); reload(); doGetContacts(); \">Delete</button>";
 
-      theListForm = theListElement.getElementsByClassName("editForm")[0];
-
-      theListForm.innerHTML += "<label>First name</label>";
-      theListForm.innerHTML += "<input type=\"text\" name=\"firstName\" id=\"updateFirstName" + contactId + "\" value=\"" + firstName + "\">";
-      theListForm.innerHTML += "<label>Last name</label>";
-      theListForm.innerHTML += "<input type=\"text\" name=\"lastName\" id=\"updateLastName" + contactId + "\" value=\"" + lastName + "\">";
-      theListForm.innerHTML += "<label>Email</label>";
-      theListForm.innerHTML += " <input type=\"text\" name=\"email\" id=\"updateEmail" + contactId + "\" value=\"" + email + "\">";
-      theListForm.innerHTML += "<label>Phone Number</label>";
-      theListForm.innerHTML += "<input type=\"text\" name=\"phoneNumber\" id=\"updatePhone" + contactId + "\" value=\"" + phoneNumber + "\">";
-      theListForm.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doUpdate(" + contactId + ");\">Update</button>";
-
-      theListElement.innerHTML += "<span id=\"updateResult" + contactId + "\">";
       if ( i < listOfContacts.length - 1)
         theList.innerHTML += "</ br>";
     }
@@ -262,19 +263,32 @@ function doGetContacts()
 
 }
 
-function doEdit(contactId)
+function doEdit(index)
 {
-  document.getElementById("listOfContacts" + contactId).classList.toggle("editHidden");
+  if (toggleindex == -1)
+  {
+    document.getElementById("togglehide").classList.toggle("show");
+  }
+  else if (toggleindex == index)
+  {
+    document.getElementById("togglehide").classList.toggle("show");
+  }
+  toggleindex = index;
+  document.getElementById("updateFirstName").value = listOfContacts.results[index].firstName;
+  document.getElementById("updateLastName").value = listOfContacts.results[index].lastName;
+  document.getElementById("updateEmail").value = listOfContacts.results[index].email;
+  document.getElementById("updatePhone").value = listOfContacts.results[index].phoneNumber;
 }
 
-function doUpdate(contactId)
+function doUpdate()
 {
 
-  var firstName = document.getElementById("updateFirstName" + contactId).value;
-  var lastName = document.getElementById("updateLastName" + contactId).value;
-  var email = document.getElementById("updateEmail" + contactId).value;
-  var phone = document.getElementById("updatePhone" + contactId).value;
-  
+  var firstName = document.getElementById("updateFirstName").value;
+  var lastName = document.getElementById("updateLastName").value;
+  var email = document.getElementById("updateEmail").value;
+  var phone = document.getElementById("updatePhone").value;
+  var contactId = listOfContacts.results[toggleindex].contactId;
+
   var jsonPayload = '{'+
   '"firstName" : "' + firstName + '", ' +
   '"lastName" : "' + lastName + '", ' +
@@ -299,17 +313,17 @@ function doUpdate(contactId)
     var status = 0;
 
     if ( status < 0 ){
-      updateResultFieldWithError(true, "updateResult" + contactId, "Couldn't update contact.");
+      updateResultFieldWithError(true, "updateResult" , "Couldn't update contact.");
       return;
     }
 
-    updateResultFieldWithError(false, "updateResult" + contactId, "Update successful.");
+    updateResultFieldWithError(false, "updateResult", "Update successful.");
 
   }
 
   catch(err)
   {
-    updateResultFieldWithError(true, "updateResult" + contactId, err.message);
+    updateResultFieldWithError(true, "updateResult", err.message);
   }
 }
 
@@ -346,7 +360,7 @@ function doDelete(contactId)
 
   catch(err)
   {
-    updateResultFieldWithError(true, "updateResult" + contactId, err.message);
+    updateResultFieldWithError(true, "updateResult", err.message);
   }
 }
 
@@ -390,7 +404,7 @@ function readCookie()
     var tokens = current.split("=");
     if(tokens[0] == "firstName")
     {
-      firstName = tokens[1];
+      userFirstName = tokens[1];
     }
     if(tokens[0] == "lastName")
     {
