@@ -14,6 +14,20 @@
       <button type="button" id="signOutButton" onclick="deleteCookie(); goSignIns();" >Sign out</button>
     </div>
 
+    <div id="searchContact">
+      <h2>Search a Contact</h2>
+      <label>Search contacts:</label>
+      <input type="text" id="searchBar" name="whatToSearch" value="">
+      <button type="button" id="searchButton" onclick="doSearch();">Search</button>
+      <span id="searchResult"></span>
+      <p id="contactsList"></p>
+      <h2>Filter By</h2>
+      <button type="button" name="searchType" value="first_name">First Name</button>
+      <button type="button" name="searchType" value="last_name">Last Name</button>
+      <button type="button" name="searchType" value="email">Email</button>
+      <button type="button" name="searchType" value="phone_number">Phone number</button>
+      <button type="button" name="searchType" value="created_at">Created at</button>
+    </div>
 
     <div id="addContact">
       <h2>Add a Contact</h2>
@@ -39,21 +53,6 @@
       <span id="addResult"></span>
     </div>
 
-    <div id="searchContact">
-      <h2>Search a Contact</h2>
-      <label>Search contacts:</label>
-      <input type="text" id="searchBar" name="whatToSearch" value="">
-      <button type="button" id="searchButton" onclick="doSearch();">Search</button>
-      <span id="searchResult"></span>
-      <p id="contactsList"></p>
-      <h2>Filter By</h2>
-      <button type="button" name="searchType" value="first_name">First Name</button>
-      <button type="button" name="searchType" value="last_name">Last Name</button>
-      <button type="button" name="searchType" value="email">Email</button>
-      <button type="button" name="searchType" value="phone_number">Phone number</button>
-      <button type="button" name="searchType" value="created_at">Created at</button>
-    </div>
-
     <div id="edit">
       <h2>Edit a Contact</h2>
       <span id="contactsResult"></span>
@@ -74,7 +73,7 @@
         <input type="text" name="phoneNumber" id="updatePhone"placeholder="123-456-7890" value="">
       </div>
       <br>
-      <button type="button" id="addButton" onclick="doUpdate();" >Update Contact</button>
+      <button type="button" id="updateButton" onclick="doUpdate();" >Update Contact</button>
       <span id="updateResult"></span>
     </div>
 
