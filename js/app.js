@@ -278,8 +278,8 @@ function doGetContacts()
       theListElement.innerHTML += "<span class=\"contactList listLName\">" + lastName + "</span>";
       theListElement.innerHTML += "<span class=\"contactList listEmail\">" + email + "</span>";
       theListElement.innerHTML += "<span class=\"contactList listPhone\">" + phoneNumber + "</span>";
-      theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doEdit(" + i + ");\">Edit</button>";
-      theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doDelete(" + listOfContacts.results[i].contactId + "); reload(); doGetContacts(); \">Delete</button>";
+      theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doEdit(" + i + ", 'edit' );\">Edit</button>";
+      theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doDelete(" + listOfContacts.results[i].contactId + "); reload(); doGetContacts(); doEdit("+ i +", 'delete' ); \">Delete</button>";
 
       if ( i < listOfContacts.length - 1)
         theList.innerHTML += "</ br>";
@@ -294,21 +294,72 @@ function doGetContacts()
 
 }
 
-function doEdit(index)
+function doEdit(index, from)
 {
-  if (toggleindex == -1)
+  if (from == "delete")
   {
-    document.getElementById("togglehide").classList.toggle("show");
+    if (toggleindex == index)
+    {
+      document.getElementById('togglehide').style.visibility='hidden';
+    }
   }
-  else if (toggleindex == index)
+  else if (from == "edit")
   {
-    document.getElementById("togglehide").classList.toggle("show");
+    if (toggleindex == index)
+    {
+      document.getElementById('togglehide').style.visibility='hidden';
+      toggleindex = -1;
+    }
+    else
+    {
+      document.getElementById('togglehide').style.visibility='visible';
+      toggleindex = index;
+      document.getElementById("updateFirstName").value = listOfContacts.results[index].firstName;
+      document.getElementById("updateLastName").value = listOfContacts.results[index].lastName;
+      document.getElementById("updateEmail").value = listOfContacts.results[index].email;
+      document.getElementById("updatePhone").value = listOfContacts.results[index].phoneNumber;
+    }
   }
-  toggleindex = index;
-  document.getElementById("updateFirstName").value = listOfContacts.results[index].firstName;
-  document.getElementById("updateLastName").value = listOfContacts.results[index].lastName;
-  document.getElementById("updateEmail").value = listOfContacts.results[index].email;
-  document.getElementById("updatePhone").value = listOfContacts.results[index].phoneNumber;
+  else
+  {
+    console.log("neither edit nor delete");
+  }
+  // if (from == "delete" && toggleindex == index)
+  // {
+  //   document.getElementById('togglehide').style.visibility='hidden';
+  //   toggleindex = -1;
+  //   return;
+  // }
+  // else if (toggleindex == index)
+  // {
+  //   document.getElementById('togglehide').style.visibility='hidden';
+  //   toggleindex = -1;
+  //   return;
+  // }
+  // else if (from == "delete")
+  // {
+  //   console.log("3");
+  //   document.getElementById('togglehide').style.visibility='visible';
+  // }
+  // else if (toggleindex == -1 && from != "delete")
+  // {
+  //   console.log("1");
+  //   document.getElementById('togglehide').style.visibility='visible';
+  //   toggleindex = index;
+  //   document.getElementById("updateFirstName").value = listOfContacts.results[index].firstName;
+  //   document.getElementById("updateLastName").value = listOfContacts.results[index].lastName;
+  //   document.getElementById("updateEmail").value = listOfContacts.results[index].email;
+  //   document.getElementById("updatePhone").value = listOfContacts.results[index].phoneNumber;
+  // }
+  // else
+  // {
+  //   console.log("2");
+  //   toggleindex = index;
+  //   document.getElementById("updateFirstName").value = listOfContacts.results[index].firstName;
+  //   document.getElementById("updateLastName").value = listOfContacts.results[index].lastName;
+  //   document.getElementById("updateEmail").value = listOfContacts.results[index].email;
+  //   document.getElementById("updatePhone").value = listOfContacts.results[index].phoneNumber;
+  // }
 }
 
 function doUpdate()
@@ -381,11 +432,11 @@ function doDelete(contactId)
     var status = 0;
 
     if ( status < 0 ){
-      updateResultFieldWithError(true, "updateResult" + contactId, "Couldn't delete contact.");
+      updateResultFieldWithError(true, "updateResult", "Couldn't delete contact.");
       return;
     }
 
-    updateResultFieldWithError(false, "updateResult" + contactId, "Delete successful.");
+    updateResultFieldWithError(false, "updateResult", "Delete successful.");
 
   }
 
