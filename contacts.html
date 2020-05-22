@@ -10,7 +10,7 @@
   <body onload="readCookie(); doGetContacts();">
 
     <div id="header">
-      <p>Hello User</p>
+      <h2>Hello User(firstname)</h2>
       <button type="button" id="signOutButton" onclick="deleteCookie(); goSignIns();" >Sign out</button>
     </div>
 
@@ -18,14 +18,22 @@
     <div id="addContact">
       <h2>Add a Contact</h2>
       <span id="contactsResult"></span>
-      <label>First name</label>
-      <input type="text" name="firstName" id="addFirstName" placeholder="First Name" value="">
-      <label>Last name</label>
-      <input type="text" name="lastName" id="addLastName" placeholder="Last Name"value="">
-      <label>Email</label>
-      <input type="text" name="email" id="addEmail" placeholder="address@example.com" value="">
-      <label>Phone Number</label>
-      <input type="text" name="phoneNumber" id="addPhone"placeholder="123-456-7890" value="">
+      <div>
+        <label>First name</label>
+        <input type="text" name="firstName" id="addFirstName" placeholder="First Name" value="">
+      </div>
+      <div>
+        <label>Last name</label>
+        <input type="text" name="lastName" id="addLastName" placeholder="Last Name"value="">
+      </div>
+      <div>
+        <label>Email</label>
+        <input type="text" name="email" id="addEmail" placeholder="address@example.com" value="">
+      </div>
+      <div>
+        <label>Phone Number</label>
+        <input type="text" name="phoneNumber" id="addPhone"placeholder="123-456-7890" value="">
+      </div>
       <br>
       <button type="button" id="addButton" onclick="doAdd();" >Add Contact</button>
       <span id="addResult"></span>
@@ -39,26 +47,34 @@
       <span id="searchResult"></span>
       <p id="contactsList"></p>
       <h2>Filter By</h2>
-      <button type="button" name="searchType" value="created_at">Created at</button>
       <button type="button" name="searchType" value="first_name">First Name</button>
       <button type="button" name="searchType" value="last_name">Last Name</button>
       <button type="button" name="searchType" value="email">Email</button>
       <button type="button" name="searchType" value="phone_number">Phone number</button>
+      <button type="button" name="searchType" value="created_at">Created at</button>
     </div>
 
     <div id="edit">
       <h2>Edit a Contact</h2>
       <span id="contactsResult"></span>
-      <label>First name</label>
-      <input type="text" name="firstName" id="updateFirstName" placeholder="First Name" value="">
-      <label>Last name</label>
-      <input type="text" name="lastName" id="updateLastName" placeholder="Last Name"value="">
-      <label>Email</label>
-      <input type="text" name="email" id="updateEmail" placeholder="address@example.com" value="">
-      <label>Phone Number</label>
-      <input type="text" name="phoneNumber" id="updatePhone"placeholder="123-456-7890" value="">
+      <div>
+        <label>First name</label>
+        <input type="text" name="firstName" id="updateFirstName" placeholder="First Name" value="">
+      </div>
+      <div>
+        <label>Last name</label>
+        <input type="text" name="lastName" id="updateLastName" placeholder="Last Name"value="">
+      </div>
+      <div>
+        <label>Email</label>
+        <input type="text" name="email" id="updateEmail" placeholder="address@example.com" value="">
+      </div>
+      <div>
+        <label>Phone Number</label>
+        <input type="text" name="phoneNumber" id="updatePhone"placeholder="123-456-7890" value="">
+      </div>
       <br>
-      <button type="button" id="updateButton" onclick="doUpdate()" >Edit Contact</button>
+      <button type="button" id="addButton" onclick="doUpdate();" >Update Contact</button>
       <span id="updateResult"></span>
     </div>
 

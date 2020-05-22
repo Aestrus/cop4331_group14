@@ -35,26 +35,19 @@ body div{
 #addContact{
   grid-column: 1 / 2;
   grid-row: 2 / 3;
-  display : block;
 }
 
 #addContact h2{
   text-align: center;
 }
 
-#addContact label{
-  display : inline;
-  text-align: left;
-}
-
-#addContact input{
-  display : inline-block;
-  text-align: left;
+#addContact div label{
+  width: 100px;
+  display: inline-block;
 }
 
 #addContact button{
-  margin-top: 5%;
-  text-align: center;
+  margin: 25px;
 }
 
 #searchContact{
@@ -65,6 +58,19 @@ body div{
 #edit{
   grid-column: 1 / 2;
   grid-row: 4 / 5;
+}
+
+/* #edit *{
+  display: none;
+} */
+
+#edit div label{
+  width: 100px;
+  display: inline-block;
+}
+
+#edit button{
+  margin: 25px;
 }
 
 #showContacts{
