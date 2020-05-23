@@ -1,32 +1,72 @@
-.index-links-container {
-    display: inline-block;
-    text-align: center;
-    position: relative;
-    width: 800px;
-    height: 400px;
-    margin: 5% auto;
-    border: 3px solid rgba(255, 236, 66, 0.767);
-    border-radius: 15px;
-    padding: 20px 20px 15px 20px;
-    background-color: rgba(51, 51, 51, 0.925);
-
-}
-  
-#index-title {
-    display: flex;
-    text-align: center;
-    position: relative;
-    justify-content: center;
-    flex-wrap: wrap;
-    color: #d6cf47;
-    font-size: 25px;
-    
+/* UNIVERSAL */
+#page-title {
+  display: flex;
+  text-align: center;
+  position: relative;
+  justify-content: center;
+  flex-wrap: wrap;
+  color: #d6cf47;
+  font-size: 25px;
 }
 
+/* UNIVERSAL Excluding contacts.html */
+.form-container {
+  display: inline-block;
+  position: relative;
+  text-align: center;
+  width: 581.54px;
+  height: 607.22px;
+
+  padding: 0;
+  margin: 0;
+  background: #181818;
+  mix-blend-mode: normal;
+  border: 1px solid #ffc700;
+  border-style: solid;
+  border-radius: 50px;
+  box-sizing: border-box;
+}
+
+/* Index CSS */
 .index-container {
-    text-align: center;
+  text-align: center;
 }
 
-.index-button {
-    
+/* Sign-In CSS */
+#signin-container {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#signin-form-title {
+  font-family: "Inconsolata";
+  font-size: 40px;
+}
+
+#form-text {
+  font-family: "Oxygen Mono";
+  font-size: 15px;
+}
+
+#signinButton {
+  font-family: "Oxygen Mono";
+  font-size: 20px;
+}
+
+#signin-avatar {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+  max-height: 15%;
+}
+
+#password-icon {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+  max-height: 15%;
 }
