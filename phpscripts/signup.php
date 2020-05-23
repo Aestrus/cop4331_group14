@@ -6,8 +6,6 @@
     $lastName = $inData["lastName"];
     $email = $inData["email"];
     $password = $inData["password"];
-    $userId = (int)$inData["userId"];
-    $searchResults = "";
 
     // connect to database
     $conn = new mysqli("localhost", "test", "testing123", "contact_manager");
@@ -27,20 +25,38 @@
         {
             returnWithError( $conn->error);
         }
-        // return user_id
-        $sql = "SELECT user_id from list_of_users where email = '$email' and password = '$password'";
+        // return user information
+        $sql = "SELECT * from list_of_users where email = '$email' and password = '$password'";
         if ( $result = $conn->query($sql) != TRUE)
         {
             returnWithError( $conn->error);
         }
-        $result = $conn->query($sql);
-        $row = $result->fetch_assoc();
-        $searchResults .= $row["user_id"];
+        else
+        {
+            // create query for sql
+            $sql = "SELECT * from  list_of_users where email = '$email' and password = '$password'";
+            $result = $conn->query($sql);
+            if ($result->num_rows > 0)
+            {
+                $row = $result->fetch_assoc();
+                $userId .= $row["user_id"];
+                $firstName .= $row["first_name"];
+                $lastName .= $row["last_name"];
+            }
+            else
+            {
+                $userId .= "-1";
+                $firstName .= "";
+                $lastName .= "";
+                $email = "";
+            }
+    
+        }
         // close connection
         mysqli_close($conn);
     }    
     
-    returnWithInfo( $searchResults );
+    returnWithInfo( $userId, $firstName, $lastName, $email);
 
     function getRequestInfo()
 	{
@@ -58,10 +74,16 @@
 		$retValue = '{"error":"' . $err . '"}';
 		sendResultInfoAsJson( $retValue );
     }
-    
-    function returnWithInfo( $searchResults )
+
+	function returnWithInfo( $userId, $firstName, $lastName, $email)
 	{
-		$retValue = '{"results":"' . $searchResults . '","error":""}';
+        $retValue = '{' .
+      '"userId":' . $userId . ',' .
+      '"firstName":"' . $firstName . '",' .
+      '"lastName":"' . $lastName . '",' .
+      '"email":"' . $email . '",' .
+      '"error":""' .
+      '}';
 		sendResultInfoAsJson( $retValue );
 	}
 ?>

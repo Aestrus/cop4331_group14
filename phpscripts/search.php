@@ -3,7 +3,8 @@
 	$inData = getRequestInfo();
   
   $search = $inData["search"];
-  $userId = $inData["userId"];
+	$userId = $inData["userId"];
+	$filter = $inData["filter"];
 	$searchResults = "";
 	$searchCount = 0;
 
@@ -14,7 +15,7 @@
 	} 
 	else
 	{
-		$sql = "SELECT contact_id, first_name, last_name, email, phone_number, user_id FROM list_of_contacts WHERE (first_name LIKE '%$search%' OR last_name LIKE '%$search%' OR email LIKE '%$search%' OR phone_number LIKE '%$search%') AND user_id = $userId";
+		$sql = "SELECT contact_id, first_name, last_name, email, phone_number, user_id FROM list_of_contacts WHERE (first_name LIKE '%$search%' OR last_name LIKE '%$search%' OR email LIKE '%$search%' OR phone_number LIKE '%$search%') AND user_id = $userId ORDER BY $filter";
 		$result = $conn->query($sql);
 		if ($result->num_rows > 0)
 		{

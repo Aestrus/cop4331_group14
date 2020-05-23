@@ -3,8 +3,21 @@ var extension = 'php';
 var userId = 0;
 var userFirstName;
 
+var filter = "contact_id";
 var listOfContacts;
 var toggleindex = -1;
+
+function setfilter(wantedFilter)
+{
+  if (filter == (wantedFilter + " ASC"))
+  {
+    filter = wantedFilter + " DESC";
+  }
+  else
+  {
+    filter = wantedFilter + " ASC";
+  }
+}
 
 function updateName()
 {
@@ -161,7 +174,8 @@ function doSearch()
   var search = document.getElementById("searchBar").value;
   var jsonPayload = '{'+
   '"search" : "' + search + '", ' +
-  '"userId" : "' + userId + '"' +
+  '"userId" : "' + userId + '", ' +
+  '"filter" : "' + filter + '"' +
   '}';
   
   var url ='/phpscripts/search.' + extension;
@@ -179,7 +193,7 @@ function doSearch()
       {
         document.getElementById("searchResult").innerHTML = "Contact(s) has been retrieved";
         
-        console.log(xhr.response);  
+        // console.log(xhr.response);  
         var jsonObject = JSON.parse( xhr.response );
         
         var theList = document.getElementById("listOfContacts");
@@ -192,8 +206,7 @@ function doSearch()
           return;
         }
 
-        listOfContacts = jsonObject.results;
-
+        listOfContacts = jsonObject;
         for(var i = 0;i < jsonObject.results.length; i++)
         {
           var firstName = listOfContacts.results[i].firstName;
@@ -210,9 +223,9 @@ function doSearch()
           theListElement.innerHTML += "<span class=\"contactList listLName\">" + lastName + "</span>";
           theListElement.innerHTML += "<span class=\"contactList listEmail\">" + email + "</span>";
           theListElement.innerHTML += "<span class=\"contactList listPhone\">" + phoneNumber + "</span>";
-          theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doEdit(" + i + ");\">Edit</button>";
-          theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doDelete(" + listOfContacts.results[i].contactId + "); reload(); doGetContacts(); \">Delete</button>";
-          if(i < jsonObject.results.length -1)
+          theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doEdit(" + i + ", 'edit' );\">Edit</button>";
+          theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doDelete(" + contactId + "); reload(); doGetContacts(); doEdit("+ i +", 'delete' ); \">Delete</button>";
+          if(i < jsonObject.results.length - 1)
           {
             contactsList += "<br />\r\n";
           }
@@ -260,8 +273,6 @@ function doGetContacts()
       return;
     }
 
-    console.log(listOfContacts);
-
     for (var i = 0; i < listOfContacts.results.length; i++){
       // do stuff
       var firstName = listOfContacts.results[i].firstName;
@@ -288,7 +299,7 @@ function doGetContacts()
 
   catch(err)
   {
-    console.log("something went wrong");
+    // console.log("something went wrong");
     updateResultFieldWithError(true, "addResult", err.message);
   }
 
@@ -301,6 +312,7 @@ function doEdit(index, from)
     if (toggleindex == index)
     {
       document.getElementById('togglehide').style.visibility='hidden';
+      toggleindex = -1;
     }
   }
   else if (from == "edit")
@@ -322,44 +334,8 @@ function doEdit(index, from)
   }
   else
   {
-    console.log("neither edit nor delete");
+    // console.log("neither edit nor delete");
   }
-  // if (from == "delete" && toggleindex == index)
-  // {
-  //   document.getElementById('togglehide').style.visibility='hidden';
-  //   toggleindex = -1;
-  //   return;
-  // }
-  // else if (toggleindex == index)
-  // {
-  //   document.getElementById('togglehide').style.visibility='hidden';
-  //   toggleindex = -1;
-  //   return;
-  // }
-  // else if (from == "delete")
-  // {
-  //   console.log("3");
-  //   document.getElementById('togglehide').style.visibility='visible';
-  // }
-  // else if (toggleindex == -1 && from != "delete")
-  // {
-  //   console.log("1");
-  //   document.getElementById('togglehide').style.visibility='visible';
-  //   toggleindex = index;
-  //   document.getElementById("updateFirstName").value = listOfContacts.results[index].firstName;
-  //   document.getElementById("updateLastName").value = listOfContacts.results[index].lastName;
-  //   document.getElementById("updateEmail").value = listOfContacts.results[index].email;
-  //   document.getElementById("updatePhone").value = listOfContacts.results[index].phoneNumber;
-  // }
-  // else
-  // {
-  //   console.log("2");
-  //   toggleindex = index;
-  //   document.getElementById("updateFirstName").value = listOfContacts.results[index].firstName;
-  //   document.getElementById("updateLastName").value = listOfContacts.results[index].lastName;
-  //   document.getElementById("updateEmail").value = listOfContacts.results[index].email;
-  //   document.getElementById("updatePhone").value = listOfContacts.results[index].phoneNumber;
-  // }
 }
 
 function doUpdate()

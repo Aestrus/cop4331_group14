@@ -34,7 +34,10 @@
         }
 
     }
-	
+    
+	// close connection
+    mysqli_close($conn);
+
 	returnWithInfo( $userId, $firstName, $lastName, $email);
 
 	function getRequestInfo()
@@ -50,7 +53,7 @@
 	
 	function returnWithInfo( $userId, $firstName, $lastName, $email)
 	{
-    $retValue = '{' .
+        $retValue = '{' .
       '"userId":' . $userId . ',' .
       '"firstName":"' . $firstName . '",' .
       '"lastName":"' . $lastName . '",' .
