@@ -2,7 +2,7 @@
 	// source from professor Leinker
 	$inData = getRequestInfo();
   
-  $userId = $inData["userId"];
+  	$userId = $inData["userId"];
 	$searchResults = "";
 	$searchCount = 0;
 
