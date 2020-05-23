@@ -1,0 +1,94 @@
+html{
+  height: 100%;
+}
+
+body{
+  margin: 0px;
+  height: 100%;
+  display : grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 10% 26.5% 26.5% 26.5% 10%;
+  grid-gap: 1px;
+  background-color: black;
+  /* font-family: Arial, Helvetica, sans-serif;
+  color:white;
+  height: 100%;
+  background-color: darkolivegreen;
+  background-image: url("/media/forest.jpg");
+  background-attachment: fixed;
+  background-size: cover;
+  background-position-y: bottom; */
+}
+
+body div{
+  text-align: center;
+  background-color: lightblue;
+}
+
+#header{
+  grid-column: 1 / 3 ;
+  grid-row: 1 / 2;
+  text-align: right;
+  padding-right: 5%;
+}
+
+#addContact{
+  grid-column: 1 / 2;
+  grid-row: 3 / 4;
+}
+
+#addContact h2{
+  text-align: center;
+}
+
+#addContact div label{
+  width: 100px;
+  display: inline-block;
+}
+
+#addContact button{
+  margin: 25px;
+}
+
+#searchContact{
+  grid-column: 1 / 2;
+  grid-row: 2 / 3;
+}
+
+#edit{
+  grid-column: 1 / 2;
+  grid-row: 4 / 5;
+}
+
+.hide{
+  visibility: hidden;
+}
+
+.show
+{
+  visibility: visible;
+}
+
+
+#edit div label{
+  width: 100px;
+  display: inline-block;
+}
+
+#edit button{
+  margin: 25px;
+}
+
+#showContacts{
+  grid-column: 2 / 3;
+  grid-row: 2 / 5;
+}
+
+#footer{
+  grid-column: 1 / 3;
+  grid-row: 5 / 6;
+}
+
+.errorMessage {
+  color:tomato;
+}

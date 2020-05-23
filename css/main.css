@@ -59,3 +59,20 @@ button:hover {
   background-size: cover;
   background-position: 50% 50%;
 }
+
+.contactList {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.contactId {
+  display: none;
+}
+
+.listButton {
+  width: 100px;
+}
+
+.editHidden {
+  display: none;
+}

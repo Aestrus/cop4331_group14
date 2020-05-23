@@ -3,88 +3,90 @@
   <head>
     <meta charset="utf-8">
     <script rel="text/javascript" src="js/app.js"></script>
-    <link rel="stylesheet" type="text/css" href="css/main.css"></link>
+    <link rel="stylesheet" type="text/css" href="css/contacts.css"></link>
     <!--Tempoaray CSS -->
     <title>Contact Manager</title>
   </head>
-  <body onload="readCookie();">
-    <div id="content">
-      <h1>Add a Contact</h1>
-      <a href="index.html">Home</a>
-      <br />
+  <body onload="readCookie(); updateName(); doGetContacts();">
+
+    <div id="header">
+      <h2 id="userFirstname">Hello User(firstname)</h2>
+      <button type="button" id="signOutButton" onclick="deleteCookie(); goSignIns();" >Sign out</button>
+    </div>
+
+    <div id="searchContact">
+      <h2>Search a Contact</h2>
+      <label>Search contacts:</label>
+      <input type="text" id="searchBar" name="whatToSearch" value="" onkeydown="reload(); doSearch();">
+      <button type="button" id="searchButton" onclick="reload(); doSearch();">Search</button>
+      <span id="searchResult"></span>
+      <p id="contactsList"></p>
+      <h2>Filter By</h2>
+      <button type="button" name="searchType" value="first_name">First Name</button>
+      <button type="button" name="searchType" value="last_name">Last Name</button>
+      <button type="button" name="searchType" value="email">Email</button>
+      <button type="button" name="searchType" value="phone_number">Phone number</button>
+      <button type="button" name="searchType" value="created_at">Created at</button>
+    </div>
+
+    <div id="addContact">
+      <h2>Add a Contact</h2>
       <span id="contactsResult"></span>
-      <div id="" class="">
+      <div>
         <label>First name</label>
         <input type="text" name="firstName" id="addFirstName" placeholder="First Name" value="">
+      </div>
+      <div>
         <label>Last name</label>
         <input type="text" name="lastName" id="addLastName" placeholder="Last Name"value="">
+      </div>
+      <div>
         <label>Email</label>
         <input type="text" name="email" id="addEmail" placeholder="address@example.com" value="">
+      </div>
+      <div>
         <label>Phone Number</label>
-        <input type="text" name="phoneNumber" id="addPhone"placeholder="311-555-2368" value="">
-        <button type="button" id="addButton" onclick="doAdd();" >Add user</button>
-        <span id="addResult"></span>
+        <input type="text" name="phoneNumber" id="addPhone"placeholder="123-456-7890" value="">
       </div>
-
-      <p>Search a Contact</p>
-      <div id="" class="">
-        <label>Search contacts:</label>
-        <input type="text" id="searchBar" name="whatToSearch" value="">
-        <button type="button" id="searchButton" onclick="doSearch();">Search</button>
-        <span id="searchResult"></span>
-        <p id="contactsList">
-        </p>
-      </div>
-
-      <p>Searched List</p>
-      <ul>
-          <li>
-            <div class="">
-              <label>First name</label>
-              <input type="text" name="firstName" value="">
-              <label>Last name</label>
-              <input type="text" name="lastName" value="">
-              <label>Email</label>
-              <input type="text" name="email" value="">
-              <label>Phone Number</label>
-              <input type="text" name="phoneNumber" value="">
-              <button type="button" id="updateButton" onclick="doUpdate();">Update</button>
-              <button type="button" id="deleteButton" onclick="doDelete()">Delete</button>
-              <button type="button" id="resetButton" onclick="doReset();">Reset</button>
-            </div>
-          </li>
-      </ul>
-
-
-
-      <p>Filter By</p>
-      <div class="">
-        <button type="button" name="searchType" value="created_at">Created at</button>
-        <button type="button" name="searchType" value="first_name">First Name</button>
-        <button type="button" name="searchType" value="last_name">Last Name</button>
-        <button type="button" name="searchType" value="email">Email</button>
-        <button type="button" name="searchType" value="phone_number">Phone number</button>
-      </div>
-
-      <p>List of Contacts</p>
-      <ul>
-          <li>
-            <div class="">
-              <label>First name</label>
-              <input type="text" name="firstName" value="">
-              <label>Last name</label>
-              <input type="text" name="lastName" value="">
-              <label>Email</label>
-              <input type="text" name="email" value="">
-              <label>Phone Number</label>
-              <input type="text" name="phoneNumber" value="">
-              <button type="button" onclick="doUpdate();">Update</button>
-              <button type="button" onclick="doDelete()">Delete</button>
-              <input type="reset">
-              <input type="hidden" name="contact_id" value="">
-            </div>
-          </li>
-      </ul>
+      <br>
+      <button type="button" id="addButton" onclick="doAdd(); reload(); doGetContacts();" >Add Contact</button>
+      <span id="addResult"></span>
     </div>
+
+    <div id="edit">
+      <h2>Edit a Contact</h2>
+      <div  id="togglehide" class="hide">
+      <span id="contactsResult"></span>
+      <div>
+          <label>First name</label>
+          <input type="text" name="firstName" id="updateFirstName" placeholder="First Name" value="">
+        </div>
+        <div>
+          <label>Last name</label>
+          <input type="text" name="lastName" id="updateLastName" placeholder="Last Name"value="">
+        </div>
+        <div>
+          <label>Email</label>
+          <input type="text" name="email" id="updateEmail" placeholder="address@example.com" value="">
+        </div>
+        <div>
+          <label>Phone Number</label>
+          <input type="text" name="phoneNumber" id="updatePhone"placeholder="123-456-7890" value="">
+        </div>
+        <br>
+        <button type="button" id="updateButton" onclick="doUpdate(); reload(); doGetContacts();" >Update Contact</button>
+        <span id="updateResult"></span>
+      </div>
+    </div>
+
+    <div id="showContacts">
+      <h2>List of Contacts</h2>
+      <ul id="listOfContacts" ></ul>
+    </div>
+
+    <div id="footer">
+      <p>footer</p>
+    </div>
+        
   </body>
 </html>
