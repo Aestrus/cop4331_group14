@@ -26,7 +26,7 @@
             returnWithError( $conn->error);
         }
         // return user information
-        $sql = "SELECT * from list_of_users where email = '$email' and password = '$password'";
+        $sql = "SELECT * FROM list_of_users WHERE email = '$email' AND password = '$password'";
         if ( $result = $conn->query($sql) != TRUE)
         {
             returnWithError( $conn->error);

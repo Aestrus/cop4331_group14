@@ -13,7 +13,7 @@
 	} 
 	else
 	{
-		$sql = "SELECT * from list_of_contacts where user_id = $userId";
+		$sql = "SELECT * FROM list_of_contacts WHERE user_id = $userId";
 		$result = $conn->query($sql);
 		if ($result->num_rows > 0)
 		{

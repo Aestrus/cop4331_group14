@@ -16,7 +16,7 @@
     else
     {
         // create query for sql
-        $sql = "SELECT * from  list_of_users where email = '$email' and password = '$password'";
+        $sql = "SELECT * FROM  list_of_users WHERE email = '$email' AND password = '$password'";
         $result = $conn->query($sql);
         if ($result->num_rows > 0)
         {
@@ -32,11 +32,9 @@
             $lastName .= "";
             $email = "";
         }
-
+        	// close connection
+        mysqli_close($conn);
     }
-    
-	// close connection
-    mysqli_close($conn);
 
 	returnWithInfo( $userId, $firstName, $lastName, $email);
 
