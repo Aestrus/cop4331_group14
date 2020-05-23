@@ -47,21 +47,13 @@ function doSignup() {
     userId = jsonObject.id;
 
     if (userId < 1) {
-      updateResultFieldWithError(
-        true,
-        "signupResult",
-        "Could not create account"
-      );
+      updateResultFieldWithError(true, "signupResult", "Could not create account");
       return;
     }
 
     email = jsonObject.email;
 
-    updateResultFieldWithError(
-      false,
-      "signupResult",
-      "Sign up successful. Please sign in. You are being redirected."
-    );
+    updateResultFieldWithError(false, "signupResult", "Sign up successful. Please sign in. You are being redirected.");
 
     goHome();
   } catch (err) {
@@ -72,6 +64,9 @@ function doSignup() {
 function doSignin() {
   var email = document.getElementById("email").value;
   var password = document.getElementById("password").value;
+  var keepLogin = document.getElementById("keepLoggedin").checked == true;
+
+  console.log(keepLogin + "=====");
 
   var jsonPayload =
     '{"email" : "' + email + '", "password" : "' + password + '"}';
@@ -101,17 +96,9 @@ function doSignin() {
       return;
     }
 
-    updateResultFieldWithError(
-      false,
-      "signinResult",
-      "Login successful. Welcome " +
-      firstName +
-      " " +
-      lastName +
-      ". Redirecting you to the home page."
-    );
+    updateResultFieldWithError(false, "signinResult", "Login successful. Welcome " + firstName + " " + lastName + ". Redirecting you to the home page.");
 
-    saveCookie();
+    saveCookie(keepLogin);
     goContacts();
   } catch (err) {
     updateResultFieldWithError(true, "signinResult", err.message);
@@ -541,19 +528,17 @@ function updateResultFieldWithError(isError, elementID, message) {
   return;
 }
 
-function saveCookie() {
-  var minutes = 20;
+function saveCookie(checked) {
+  var minutes;
+  if (checked) {
+    minutes = 43800;
+  }
+  else {
+    minutes = 20;
+  }
   var date = new Date();
-  date.setTime(date.getTime() + minutes * 60 * 1000);
-  document.cookie =
-    "firstName=" +
-    firstName +
-    ", lastName=" +
-    lastName +
-    ", userId=" +
-    userId +
-    ";expires=" +
-    date.toGMTString();
+  date.setTime(date.getTime() + (minutes * 60 * 1000));
+  document.cookie = "firstName=" + firstName + ", lastName=" + lastName + ", userId=" + userId + ";expires=" + date.toGMTString();
 }
 
 function deleteCookie() {
@@ -598,6 +583,35 @@ function goContacts() {
   setTimeout(function () { window.location.href = "contacts.html"; }, 0000);
 }
 
+function goSignIns() {
+  setTimeout(function () { window.location.href = "signin.html"; }, 0000);
+}
+
+function goSignUp() {
+  setTimeout(function () { window.location.href = "signup.html"; }, 0000);
+}
+
+function goForgetPassword() {
+  setTimeout(function () { window.location.href = "forgotPassword.html"; }, 0000);
+}
+
+function goContacts() {
+  setTimeout(function () { window.location.href = "contacts.html"; }, 0000);
+}
+
+function goSignIns() {
+  setTimeout(function () { window.location.href = "signin.html"; }, 0000);
+}
+
+function goSignUp() {
+  setTimeout(function () { window.location.href = "signup.html"; }, 0000);
+}
+
+function goForgetPassword() {
+  setTimeout(function () { window.location.href = "forgotPassword.html"; }, 0000);
+}
+
+/*
 particlesJS(
   "particles-js",
 
@@ -712,37 +726,4 @@ particlesJS(
     retina_detect: true,
   }
 );
-
-function goSignIns() {
-  setTimeout(function () {
-    window.location.href = "signin.html";
-  }, 0000);
-}
-
-function goSignUp() {
-  setTimeout(function () {
-    window.location.href = "signup.html";
-  }, 0000);
-}
-
-function goForgetPassword() {
-  setTimeout(function () {
-    window.location.href = "forgotPassword.html";
-  }, 0000);
-}
-
-function goContacts() {
-  setTimeout(function () { window.location.href = "contacts.html"; }, 0000);
-}
-
-function goSignIns() {
-  setTimeout(function () { window.location.href = "signin.html"; }, 0000);
-}
-
-function goSignUp() {
-  setTimeout(function () { window.location.href = "signup.html"; }, 0000);
-}
-
-function goForgetPassword() {
-  setTimeout(function () { window.location.href = "forgotPassword.html"; }, 0000);
-}
+*/

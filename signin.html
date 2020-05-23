@@ -38,15 +38,17 @@
       <label for="password" id="form-text">Password</label>
       <input type="password" name="password" id="password" placeholder="password" required><br>
 
+      <input type="checkbox" id="keepLoggedin" name="keepLoggedin" value="1">
+      <label for="keepLoggedin">Keep me logged in</label> <br>
+
       <button type="button" id="signinButton" onclick="doSignin();">Sign in</button>
+      <button type="button" id="signUpButton" onclick="goSignUp();">Sign Up</button>
+      <button type="button" id="forgotPasswordButton" onclick="goForgetPassword();">Forgot password?</button>
 
       <span id="signinResult"></span>
 
-    </div>
-  </div>
-
-  <script rel="text/javascript" src="js/particles.js"></script>
-  <script rel="text/javascript" src="js/app.js"></script>
+      <script rel="text/javascript" src="js/particles.js"></script>
+      <script rel="text/javascript" src="js/app.js"></script>
 
 </body>
 
