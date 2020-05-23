@@ -77,6 +77,9 @@ function doSignin()
 {
   var email = document.getElementById("email").value;
   var password = document.getElementById("password").value;
+  var keepLogin = document.getElementById("keepLoggedin").checked == true;
+
+  console.log(keepLogin + "=====");
 
   var jsonPayload = '{"email" : "' + email + '", "password" : "' + password + '"}';
   var url ='/phpscripts/signin.' + extension;
@@ -104,7 +107,7 @@ function doSignin()
 
     updateResultFieldWithError(false, "signinResult", "Login successful. Welcome "+ firstName + " " + lastName + ". Redirecting you to the home page.");
     
-    saveCookie();
+    saveCookie(keepLogin);
     goContacts();
   }
 
@@ -436,9 +439,17 @@ function updateResultFieldWithError(isError, elementID, message)
   return;
 }
 
-function saveCookie()
+function saveCookie(checked)
 {
-	var minutes = 20;
+  var minutes;
+  if (checked)
+  {
+    minutes = 43800;
+  }
+  else
+  {
+    minutes = 20;
+  }
 	var date = new Date();
   date.setTime(date.getTime()+(minutes*60*1000));	
   document.cookie = "firstName=" + firstName + ", lastName=" + lastName + ", userId=" + userId + ";expires=" + date.toGMTString();
