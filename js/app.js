@@ -5,7 +5,11 @@ var userFirstName;
 
 var filter = "contact_id";
 var listOfContacts;
-var toggleindex = -1;
+var editContactId = -1;
+var editFirstName;
+var editLastName;
+var editEmail;
+var editPhoneNumber;
 
 function setfilter(wantedFilter)
 {
@@ -209,6 +213,8 @@ function doSearch()
           return;
         }
 
+        var flag = false;
+
         listOfContacts = jsonObject;
         for(var i = 0;i < jsonObject.results.length; i++)
         {
@@ -226,12 +232,21 @@ function doSearch()
           theListElement.innerHTML += "<span class=\"contactList listLName\">" + lastName + "</span>";
           theListElement.innerHTML += "<span class=\"contactList listEmail\">" + email + "</span>";
           theListElement.innerHTML += "<span class=\"contactList listPhone\">" + phoneNumber + "</span>";
-          theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doEdit(" + i + ", 'edit' );\">Edit</button>";
-          theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doDelete(" + contactId + "); reload(); doGetContacts(); doEdit("+ i +", 'delete' ); \">Delete</button>";
+          theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doEdit(" + contactId + "," + firstName + "," + lastName + "," + email + "," + phoneNumber + ", 'edit' );\">Edit</button>";
+          theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doDelete(" + contactId + "); reload(); doSearch(); doEdit(" + contactId + "," + firstName + "," + lastName + "," + email + "," + phoneNumber + ", 'delete' ); \">Delete</button>";
           if(i < jsonObject.results.length - 1)
           {
             contactsList += "<br />\r\n";
           }
+          if (contactId == editContactId)
+          {
+            flag = true;
+          }
+        }
+        if (!flag)
+        {
+          document.getElementById('togglehide').style.visibility='hidden';
+          editContactId = -1;
         }
       }
     };
@@ -308,36 +323,41 @@ function doGetContacts()
 
 }
 
-function doEdit(index, from)
+function doEdit(newContactId, newFirstName, newLastName, newEmail, newPhoneNumber, from)
 {
   if (from == "delete")
   {
-    if (toggleindex == index)
+    console.log("in delete");
+    if (editContactId == newContactId)
     {
+      console.log("in delete's if statement");
       document.getElementById('togglehide').style.visibility='hidden';
-      toggleindex = -1;
+      editContactId = -1;
     }
+    console.log(editContactId);
   }
   else if (from == "edit")
   {
-    if (toggleindex == index)
+    console.log("in edit");
+    if (editContactId == newContactId)
     {
       document.getElementById('togglehide').style.visibility='hidden';
-      toggleindex = -1;
+      editContactId = -1;
     }
     else
     {
       document.getElementById('togglehide').style.visibility='visible';
-      toggleindex = index;
-      document.getElementById("updateFirstName").value = listOfContacts.results[index].firstName;
-      document.getElementById("updateLastName").value = listOfContacts.results[index].lastName;
-      document.getElementById("updateEmail").value = listOfContacts.results[index].email;
-      document.getElementById("updatePhone").value = listOfContacts.results[index].phoneNumber;
+      editContactId = newContactId;
+      document.getElementById("updateFirstName").value = newFirstName;
+      document.getElementById("updateLastName").value = newLastName;
+      document.getElementById("updateEmail").value = newEmail;
+      document.getElementById("updatePhone").value = newPhoneNumber;
     }
+    console.log(editContactId);
   }
   else
   {
-    // console.log("neither edit nor delete");
+    console.log("neither edit nor delete");
   }
 }
 
