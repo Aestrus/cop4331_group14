@@ -327,18 +327,14 @@ function doEdit(newContactId, newFirstName, newLastName, newEmail, newPhoneNumbe
 {
   if (from == "delete")
   {
-    console.log("in delete");
     if (editContactId == newContactId)
     {
-      console.log("in delete's if statement");
       document.getElementById('togglehide').style.visibility='hidden';
       editContactId = -1;
     }
-    console.log(editContactId);
   }
   else if (from == "edit")
   {
-    console.log("in edit");
     if (editContactId == newContactId)
     {
       document.getElementById('togglehide').style.visibility='hidden';
@@ -353,11 +349,10 @@ function doEdit(newContactId, newFirstName, newLastName, newEmail, newPhoneNumbe
       document.getElementById("updateEmail").value = newEmail;
       document.getElementById("updatePhone").value = newPhoneNumber;
     }
-    console.log(editContactId);
   }
   else
   {
-    console.log("neither edit nor delete");
+    // console.log("neither edit nor delete");
   }
 }
 
