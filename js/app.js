@@ -232,8 +232,8 @@ function doSearch()
           theListElement.innerHTML += "<span class=\"contactList listLName\">" + lastName + "</span>";
           theListElement.innerHTML += "<span class=\"contactList listEmail\">" + email + "</span>";
           theListElement.innerHTML += "<span class=\"contactList listPhone\">" + phoneNumber + "</span>";
-          theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doEdit(" + contactId + "," + firstName + "," + lastName + "," + email + "," + phoneNumber + ", 'edit' );\">Edit</button>";
-          theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doDelete(" + contactId + "); reload(); doSearch(); doEdit(" + contactId + "," + firstName + "," + lastName + "," + email + "," + phoneNumber + ", 'delete' ); \">Delete</button>";
+          theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doEdit(" + contactId + ",'" + firstName + "','" + lastName + "','" + email + "','" + phoneNumber + "', 'edit' );\">Edit</button>";
+          theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doDelete(" + contactId + "); reload(); doSearch(); doEdit(" + contactId + ",'" + firstName + "','" + lastName + "','" + email + "','" + phoneNumber + "', 'delete' ); \">Delete</button>";
           if(i < jsonObject.results.length - 1)
           {
             contactsList += "<br />\r\n";
@@ -363,7 +363,7 @@ function doUpdate()
   var lastName = document.getElementById("updateLastName").value;
   var email = document.getElementById("updateEmail").value;
   var phone = document.getElementById("updatePhone").value;
-  var contactId = listOfContacts.results[toggleindex].contactId;
+  var contactId = editContactId;
 
   var jsonPayload = '{'+
   '"firstName" : "' + firstName + '", ' +
