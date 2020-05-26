@@ -92,3 +92,8 @@ body div{
 .errorMessage {
   color:tomato;
 }
+
+#Results
+{
+  visibility: hidden;
+}

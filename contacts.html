@@ -48,9 +48,9 @@
         <label>Phone Number</label>
         <input type="text" name="phoneNumber" id="addPhone"placeholder="123-456-7890" value="">
       </div>
+      <span id="addResult"></span>
       <br>
       <button type="button" id="addButton" onclick="doAdd(); reload(); doSearch();" >Add Contact</button>
-      <span id="addResult"></span>
     </div>
 
     <div id="edit">
@@ -73,9 +73,9 @@
           <label>Phone Number</label>
           <input type="text" name="phoneNumber" id="updatePhone"placeholder="123-456-7890" value="">
         </div>
+        <span id="editResult"></span>
         <br>
         <button type="button" id="updateButton" onclick="doUpdate(); reload(); doSearch();" >Update Contact</button>
-        <span id="updateResult"></span>
       </div>
     </div>
 
@@ -86,6 +86,7 @@
 
     <div id="footer">
       <p>footer</p>
+      <span id="Results"></span>
     </div>
         
   </body>

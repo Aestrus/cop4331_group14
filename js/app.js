@@ -130,14 +130,33 @@ function doSignout()
 function doAdd()
 {
   var firstName = document.getElementById("addFirstName").value;
-  document.getElementById("addFirstName").value = "";
   var lastName = document.getElementById("addLastName").value;
-  document.getElementById("addLastName").value = "";
   var email = document.getElementById("addEmail").value;
-  document.getElementById("addEmail").value = "";
   var phone = document.getElementById("addPhone").value;
-  document.getElementById("addPhone").value = "";
   
+  if (firstName == "" && lastName == "" && email == "" && phone == "")
+  {
+    updateResultFieldWithError(true, "addResult", "Can't add empty contact");
+    return;
+  }
+  else if (firstName == "" && lastName == "")
+  {
+    updateResultFieldWithError(true, "addResult", "First or Last Name must be filled");
+    return;
+  }
+  else if (email == "" && phone == "")
+  {
+    updateResultFieldWithError(true, "addResult", "Email or Phone Number must be filled");
+    return;
+  }
+
+  updateResultFieldWithError(false, "addResult", "");
+
+  document.getElementById("addFirstName").value = "";
+  document.getElementById("addLastName").value = "";
+  document.getElementById("addEmail").value = "";
+  document.getElementById("addPhone").value = "";
+
   var jsonPayload = '{'+
   '"firstName" : "' + firstName + '", ' +
   '"lastName" : "' + lastName + '", ' +
@@ -162,17 +181,17 @@ function doAdd()
     var status = 0;
 
     if ( status < 0 ){
-      updateResultFieldWithError(true, "addResult", "User/Password combination incorrect");
+      updateResultFieldWithError(true, "Results", "User/Password combination incorrect");
       return;
     }
 
-    updateResultFieldWithError(false, "addResult", "Login successful. Welcome "+ firstName + " " + lastName + ". Redirecting you to the home page.");
+    updateResultFieldWithError(false, "Results", "Add successful");
 
   }
 
   catch(err)
   {
-    updateResultFieldWithError(true, "addResult", err.message);
+    updateResultFieldWithError(true, "Results", err.message);
   }
 }
 
@@ -198,7 +217,7 @@ function doSearch()
     {
       if(this.readyState == 4 && this.status == 200)
       {
-        document.getElementById("searchResult").innerHTML = "Contact(s) has been retrieved";
+        document.getElementById("Results").innerHTML = "Contact(s) has been retrieved";
         
         // console.log(xhr.response);  
         var jsonObject = JSON.parse( xhr.response );
@@ -233,7 +252,7 @@ function doSearch()
           theListElement.innerHTML += "<span class=\"contactList listEmail\">" + email + "</span>";
           theListElement.innerHTML += "<span class=\"contactList listPhone\">" + phoneNumber + "</span>";
           theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doEdit(" + contactId + ",'" + firstName + "','" + lastName + "','" + email + "','" + phoneNumber + "', 'edit' );\">Edit</button>";
-          theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doDelete(" + contactId + "); reload(); doSearch(); doEdit(" + contactId + ",'" + firstName + "','" + lastName + "','" + email + "','" + phoneNumber + "', 'delete' ); \">Delete</button>";
+          theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doDelete(" + contactId + "); doSearch(); reload(); doEdit(" + contactId + ",'" + firstName + "','" + lastName + "','" + email + "','" + phoneNumber + "', 'delete' ); \">Delete</button>";
           if(i < jsonObject.results.length - 1)
           {
             contactsList += "<br />\r\n";
@@ -255,7 +274,7 @@ function doSearch()
 
   catch(err)
   {
-    updateResultFieldWithError(true, "searchResult", err.message);
+    updateResultFieldWithError(true, "Results", err.message);
   }
 
 }
@@ -317,8 +336,7 @@ function doGetContacts()
 
   catch(err)
   {
-    // console.log("something went wrong");
-    updateResultFieldWithError(true, "addResult", err.message);
+    updateResultFieldWithError(true, "Results", err.message);
   }
 
 }
@@ -365,6 +383,29 @@ function doUpdate()
   var phone = document.getElementById("updatePhone").value;
   var contactId = editContactId;
 
+  if (firstName == "" && lastName == "" && email == "" && phone == "")
+  {
+    updateResultFieldWithError(true, "editResult", "Can't add empty contact");
+    return;
+  }
+  else if (firstName == "" && lastName == "")
+  {
+    updateResultFieldWithError(true, "editResult", "First or Last Name must be filled");
+    return;
+  }
+  else if (email == "" && phone == "")
+  {
+    updateResultFieldWithError(true, "editResult", "Email or Phone Number must be filled");
+    return;
+  }
+
+  updateResultFieldWithError(false, "editResult", "");
+
+  document.getElementById("updateFirstName").value = "";
+  document.getElementById("updateLastName").value = "";
+  document.getElementById("updateEmail").value = "";
+  document.getElementById("updatePhone").value = "";
+
   var jsonPayload = '{'+
   '"firstName" : "' + firstName + '", ' +
   '"lastName" : "' + lastName + '", ' +
@@ -389,22 +430,29 @@ function doUpdate()
     var status = 0;
 
     if ( status < 0 ){
-      updateResultFieldWithError(true, "updateResult" , "Couldn't update contact.");
+      updateResultFieldWithError(true, "Results" , "Couldn't update contact.");
       return;
     }
 
-    updateResultFieldWithError(false, "updateResult", "Update successful.");
+    updateResultFieldWithError(false, "Results", "Update successful.");
 
   }
 
   catch(err)
   {
-    updateResultFieldWithError(true, "updateResult", err.message);
+    updateResultFieldWithError(true, "Results", err.message);
   }
 }
 
 function doDelete(contactId)
 {
+  var answer = confirm("Are you sure you want to delete this contact?");
+
+  if (!answer)
+  {
+    console.log("aborting delete");
+    return;
+  }
   
   var jsonPayload = '{'+
   '"contactId" : "' + contactId + '"' +
@@ -426,17 +474,17 @@ function doDelete(contactId)
     var status = 0;
 
     if ( status < 0 ){
-      updateResultFieldWithError(true, "updateResult", "Couldn't delete contact.");
+      updateResultFieldWithError(true, "Results", "Couldn't delete contact.");
       return;
     }
 
-    updateResultFieldWithError(false, "updateResult", "Delete successful.");
+    updateResultFieldWithError(false, "Results", "Delete successful.");
 
   }
 
   catch(err)
   {
-    updateResultFieldWithError(true, "updateResult", err.message);
+    updateResultFieldWithError(true, "Results", err.message);
   }
 }
 
