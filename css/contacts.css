@@ -82,6 +82,7 @@ body div{
 #showContacts{
   grid-column: 2 / 3;
   grid-row: 2 / 5;
+  overflow-y: auto;
 }
 
 #footer{
