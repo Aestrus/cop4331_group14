@@ -36,10 +36,18 @@ function reload()
 function doSignup()
 {
 
-  var email = document.getElementById("email").value;
-  var password = document.getElementById("password").value;
   var firstName = document.getElementById("firstName").value;
   var lastName = document.getElementById("lastName").value;
+  var email = document.getElementById("email").value;
+  var password = document.getElementById("password").value;
+
+  if (firstName == "" && lastName == "" && email == "" && password == "")
+  {
+    updateResultFieldWithError(true, "signupResult", "All fields must be filled out");
+    return;
+  }
+
+  updateResultFieldWithError(false, "signupResult", "");
 
   var jsonPayload = '{"firstName" : "' + firstName + '", "lastName" : "' + lastName + '", "email" : "' + email + '", "password" : "' + password + '"}';
   var url ='/phpscripts/signup.' + extension;
@@ -55,19 +63,21 @@ function doSignup()
 
     var jsonObject = JSON.parse( xhr.response );
 
-    userId = jsonObject.id;
+    userId = jsonObject.userId;
 
     if (userId < 1)
     {
-      updateResultFieldWithError(true, "signupResult", "Could not create account");
+      updateResultFieldWithError(true, "signupResult", "Email is already being used");
       return;
     }
+    else
+    {
+      updateResultFieldWithError(false, "signupResult", "Sign up successful. Please sign in. You are being redirected.");
+      
+      goHome();
 
-    email = jsonObject.email;
+    }
 
-    updateResultFieldWithError(false, "signupResult", "Sign up successful. Please sign in. You are being redirected.");
-    
-    goHome();
 
   }
 
@@ -235,6 +245,7 @@ function doSearch()
         var flag = false;
 
         listOfContacts = jsonObject;
+
         for(var i = 0;i < jsonObject.results.length; i++)
         {
           var firstName = listOfContacts.results[i].firstName;

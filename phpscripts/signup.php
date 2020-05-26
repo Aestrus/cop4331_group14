@@ -17,6 +17,30 @@
     } 
     else
     {
+        // look for email in database first then create user if email doesn't exist
+
+        // create query
+        $sql = "SELECT * FROM  list_of_users WHERE email = '$email'";
+
+        // execute query
+        if ( $result = $conn->query($sql) != TRUE)
+        {
+            returnWithError( $conn->error);
+        }
+        else
+        {
+            if ($result->num_rows > 0)
+            {
+                $userId .= "-1";
+                $firstName .= "";
+                $lastName .= "";
+                $email = "";
+                returnWithInfo( $userId, $firstName, $lastName, $email);
+            }
+        }
+
+        // creating user after searching for email
+
         // create query
         $sql = "INSERT INTO list_of_users(first_name,last_name,email,password) VALUES ('$firstName','$lastName','$email','$password')";
     
@@ -33,9 +57,6 @@
         }
         else
         {
-            // create query for sql
-            $sql = "SELECT * from  list_of_users where email = '$email' and password = '$password'";
-            $result = $conn->query($sql);
             if ($result->num_rows > 0)
             {
                 $row = $result->fetch_assoc();

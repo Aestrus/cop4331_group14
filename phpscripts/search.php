@@ -19,7 +19,7 @@
 	else
 	{
 		// create query
-		$sql = "SELECT contact_id, first_name, last_name, email, phone_number, user_id FROM list_of_contacts WHERE (first_name LIKE '%$search%' OR last_name LIKE '%$search%' OR email LIKE '%$search%' OR phone_number LIKE '%$search%') AND user_id = $userId ORDER BY $filter";
+		$sql = "SELECT contact_id, first_name, last_name, email, phone_number FROM list_of_contacts WHERE (first_name LIKE '%$search%' OR last_name LIKE '%$search%' OR email LIKE '%$search%' OR phone_number LIKE '%$search%') AND user_id = $userId ORDER BY $filter";
 
 		// execute query and see if it goes through
 		$result = $conn->query($sql);
