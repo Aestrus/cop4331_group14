@@ -17,29 +17,24 @@
     } 
     else
     {
-        // look for email in database first then create user if email doesn't exist
-
-        // create query
-        $sql = "SELECT * FROM  list_of_users WHERE email = '$email'";
-
-        // execute query
+        $sql = "SELECT * FROM list_of_users WHERE email = '$email'";
         if ( $result = $conn->query($sql) != TRUE)
         {
             returnWithError( $conn->error);
         }
         else
         {
+            $result = $conn->query($sql);
             if ($result->num_rows > 0)
             {
-                $userId .= "-1";
-                $firstName .= "";
-                $lastName .= "";
+                $userId = -1;
+                $firstName = "";
+                $lastName = "";
                 $email = "";
                 returnWithInfo( $userId, $firstName, $lastName, $email);
+                return;
             }
         }
-
-        // creating user after searching for email
 
         // create query
         $sql = "INSERT INTO list_of_users(first_name,last_name,email,password) VALUES ('$firstName','$lastName','$email','$password')";
@@ -57,19 +52,23 @@
         }
         else
         {
+            // create query for sql
+            $sql = "SELECT * from  list_of_users where email = '$email' and password = '$password'";
+            $result = $conn->query($sql);
             if ($result->num_rows > 0)
             {
                 $row = $result->fetch_assoc();
-                $userId .= $row["user_id"];
-                $firstName .= $row["first_name"];
-                $lastName .= $row["last_name"];
+                $userId = $row["user_id"];
+                $firstName = $row["first_name"];
+                $lastName = $row["last_name"];
+                $email = $row["email"];
             }
             else
             {
                 $userId .= "-1";
                 $firstName .= "";
                 $lastName .= "";
-                $email = "";
+                $email .= "";
             }
     
         }
