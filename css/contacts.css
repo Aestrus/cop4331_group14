@@ -5,6 +5,8 @@ html{
 body{
   margin: 0px;
   height: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
   display : grid;
   grid-template-columns: 50% 50%;
   grid-template-rows: 10% 26.5% 26.5% 26.5% 10%;
@@ -83,6 +85,20 @@ body div{
   grid-column: 2 / 3;
   grid-row: 2 / 5;
   overflow-y: auto;
+}
+
+#listOfContacts{
+  width: 100%;
+}
+
+#listOfContacts{
+  border-collapse: collapse;
+}
+
+
+#listOfContacts table, th, td{
+  border: 0.1px black solid;
+  border-left: 0px;
 }
 
 #footer{
