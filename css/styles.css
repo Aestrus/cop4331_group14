@@ -12,8 +12,8 @@ body{
 
 /* Form Box */
 .wrapper{
-  width: 375px;
-  height: 475px;
+  width: 425px;
+  height: 550px;
   border-radius: 10px;
   background: rgb(29, 29, 29);
   margin: 60px auto;
@@ -58,7 +58,7 @@ body{
   background-color: #b69b03;
   border-radius: 50px;
   position: relative;
-  margin-left: 17%;
+  margin-left: 22%;
   line-height: 45px;
   font-weight: bold;
   color: #fff;
@@ -87,15 +87,30 @@ body{
   width: calc(100% -15px);
 }
 
+/* Input Box Styling */
 .wrapper #email{
-  margin-bottom: 30px;
+  margin-bottom: 15px;
+  margin-left: 8%;
+}
+
+.wrapper #firstName{
+  margin-bottom: 15px;
+}
+
+.wrapper #lastName{
+  margin-bottom: 15px;
+  margin-left: 2%;
+}
+
+.wrapper #password{
+  margin-left: 3%;
 }
 
 .field-label{
   color: #d3bc38;
-  padding-left: 30px;
   padding-right: 10px;
   font-size: 16px;
+  margin-left: 10%;
 }
 
 /* Forgot Password */
@@ -103,7 +118,7 @@ body{
   margin-top: 10px;
   font-size: 14px;
   text-align: center;
-  margin-left: 32%;
+  margin-left: 33%;
   border: none;
   background: none;
   color: #707070;
@@ -197,7 +212,7 @@ background: none;
   justify-content: center;
   text-align: center;
   position: relative;
-  margin-left: 20%;
+  margin-left: 26%;
   font-size: 20px;
 }
 
@@ -212,5 +227,17 @@ background: none;
 }
 
 #signinResult{
-  color: white;
+  color: rgb(255, 91, 91);
+  font-size: 14px;
+  margin-left: 15%;
+}
+
+.title-2{
+  text-align: center;
+  justify-content: center;
+  margin-top: 5%;
+  margin-right: 7%;
+  font-family: Oxygen Mono;
+  color: #d3bc38;
+  font-size: 25px;
 }
