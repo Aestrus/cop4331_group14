@@ -3,8 +3,10 @@
   <head>
     <title>Contact Manager</title>
     <meta charset="utf-8">
+    <script rel="text/javascript" src="js/md5.js"></script>
     <script rel="text/javascript" src="js/app.js"></script>
     <link rel="stylesheet" type="text/css" href="css/main.css"></link>
+    <link rel="shortcut icon" type="image/png" href="images/contactManager.png">
   </head>
   <body>
     <div id="content">
@@ -12,15 +14,17 @@
       <br />
       <span id ="signinResult"></span>
       <br>
-      <label for="email"><b>Email</b></label>
-      <input type="text" name="email" id="email" placeholder="example@example.com" required><br />
-      <label for="password">Password</label>
-      <input type="password" name="password" id="password" placeholder="password" required><br />
-      <input type="checkbox" id="keepLoggedin" name="keepLoggedin" value="1">
-      <label for="keepLoggedin">Keep me logged in</label> <br>
-      <button type="button" id="signinButton"  onclick="doSignin();">Sign in</button>
-      <button type="button" id="signUpButton"  onclick="goSignUp();">Sign Up</button>
-      <button type="button" id="forgotPasswordButton"  onclick="goForgetPassword();">Forgot password?</button>
+      <form action="" autocomplete="on"></form>
+        <label for="email"><b>Email</b></label>
+        <input type="text" name="email" id="email" placeholder="example@example.com" autocomplete="on" required><br />
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" placeholder="password" autocomplete="on" required><br />
+        <input type="checkbox" id="keepLoggedin" name="keepLoggedin" value="1">
+        <label for="keepLoggedin">Keep me logged in</label> <br>
+        <button type="button" id="signinButton"  onclick="doSignin();">Sign in</button>
+        <button type="button" id="signUpButton"  onclick="goSignUp();">Sign Up</button>
+        <button type="button" id="forgotPasswordButton"  onclick="goForgetPassword();">Forgot password?</button>
+      </form>
     </div>
   </body>
 </html>

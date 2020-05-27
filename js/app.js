@@ -3,23 +3,49 @@ var extension = 'php';
 var userId = 0;
 var userFirstName;
 
-var filter = "contact_id";
+var filter = "date_created ASC";
 var listOfContacts;
 var editContactId = -1;
 var editFirstName;
 var editLastName;
 var editEmail;
 var editPhoneNumber;
+var keepLogin;
 
 function setfilter(wantedFilter)
 {
+  document.getElementById("filterId").innerText = "Filtering by";
+
+  if (wantedFilter == "first_name")
+  {
+    document.getElementById("filterId").innerText += " First Name";
+  }
+  else if (wantedFilter == "last_name")
+  {
+    document.getElementById("filterId").innerText += " Last Name";
+  }
+  else if (wantedFilter == "email")
+  {
+    document.getElementById("filterId").innerText += " Email";
+  }
+  else if (wantedFilter == "phone_number")
+  {
+    document.getElementById("filterId").innerText += " Phone Number";
+  }
+  else if (wantedFilter == "date_created")
+  {
+    document.getElementById("filterId").innerText += " Date Created";
+  }
+
   if (filter == (wantedFilter + " ASC"))
   {
     filter = wantedFilter + " DESC";
+    document.getElementById("filterId").innerText += " Descending";
   }
   else
   {
     filter = wantedFilter + " ASC";
+    document.getElementById("filterId").innerText += " Ascending";
   }
 }
 
@@ -47,9 +73,23 @@ function doSignup()
     return;
   }
 
+  var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+  if(!(mailformat.test(email)))
+  {
+    updateResultFieldWithError(true, "signupResult", "Email is not a valid email");
+    return;
+  }
+
   updateResultFieldWithError(false, "signupResult", "");
 
-  var jsonPayload = '{"firstName" : "' + firstName + '", "lastName" : "' + lastName + '", "email" : "' + email + '", "password" : "' + password + '"}';
+  firstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
+  lastName = lastName.charAt(0).toUpperCase() + lastName.slice(1);
+
+  // hashing password
+  var hash = md5( password );
+
+  var jsonPayload = '{"firstName" : "' + firstName + '", "lastName" : "' + lastName + '", "email" : "' + email + '", "password" : "' + hash + '"}';
   var url ='/phpscripts/signup.' + extension;
   
   var xhr = new XMLHttpRequest();
@@ -91,11 +131,12 @@ function doSignin()
 {
   var email = document.getElementById("email").value;
   var password = document.getElementById("password").value;
-  var keepLogin = document.getElementById("keepLoggedin").checked == true;
+  keepLogin = document.getElementById("keepLoggedin").checked == true;
 
-  console.log(keepLogin + "=====");
+  // hashing password
+  var hash = md5( password );
 
-  var jsonPayload = '{"email" : "' + email + '", "password" : "' + password + '"}';
+  var jsonPayload = '{"email" : "' + email + '", "password" : "' + hash + '"}';
   var url ='/phpscripts/signin.' + extension;
 
   var xhr = new XMLHttpRequest();
@@ -120,7 +161,6 @@ function doSignin()
     }
 
     updateResultFieldWithError(false, "signinResult", "Login successful. Welcome "+ firstName + " " + lastName + ". Redirecting you to the home page.");
-    
     saveCookie(keepLogin);
     goContacts();
   }
@@ -158,6 +198,26 @@ function doAdd()
   {
     updateResultFieldWithError(true, "addResult", "Email or Phone Number must be filled");
     return;
+  }
+  else if (email != "")
+  {
+    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  
+    if(!(mailformat.test(email)))
+    {
+      updateResultFieldWithError(true, "addResult", "Email is not a valid email");
+      return;
+    }
+  }
+  else if (phone != "")
+  {
+    var numberformat = /^[0-9]+$/;
+  
+    if(!(numberformat.test(phone)))
+    {
+      updateResultFieldWithError(true, "addResult", "Phone Number is not a valid number");
+      return;
+    }
   }
 
   updateResultFieldWithError(false, "addResult", "");
@@ -209,14 +269,14 @@ function doSearch()
 {
   var search = document.getElementById("searchBar").value;
 
-  if (search == "")
-  {
-    var theList = document.getElementById("listOfContacts");
-    theList.innerHTML += "<tr>";
-    theListElement = theList.getElementsByTagName("tr")[0];
-    theListElement.innerHTML += "<th class=\"contactList listFName\">Please Search for a Contact</th>";
-    return;
-  }
+  // if (search == "")
+  // {
+  //   var theList = document.getElementById("listOfContacts");
+  //   theList.innerHTML += "<tr>";
+  //   theListElement = theList.getElementsByTagName("tr")[0];
+  //   theListElement.innerHTML += "<th class=\"contactList listFName\">Please Search for a Contact</th>";
+  //   return;
+  // }
 
   var jsonPayload = '{'+
   '"search" : "' + search + '", ' +
@@ -286,23 +346,6 @@ function doSearch()
           theListElement.innerHTML += "<td class=\"contactList listPhone\">" + phoneNumber + "</td>";
           theListElement.innerHTML += "<td class=\"contactList listPhone\"><button type=\"button\" class=\"listButton\" onclick=\"doEdit(" + contactId + ",'" + firstName + "','" + lastName + "','" + email + "','" + phoneNumber + "', 'edit' );\">Edit</button></td>";
           theListElement.innerHTML += "<td class=\"contactList listPhone\"><button type=\"button\" class=\"listButton\" onclick=\"doDelete(" + contactId + "); doSearch(); reload(); doEdit(" + contactId + ",'" + firstName + "','" + lastName + "','" + email + "','" + phoneNumber + "', 'delete' ); \">Delete</button></td>";
-          
-          // theList.innerHTML += "<li>";
-      
-          // theListElement = theList.getElementsByTagName("li")[i];
-    
-          // theListElement.innerHTML += "<span class=\"contactList listFName\">" + firstName + "</span>";
-          // theListElement.innerHTML += "<span class=\"contactList listLName\">" + lastName + "</span>";
-          // theListElement.innerHTML += "<span class=\"contactList listEmail\">" + email + "</span>";
-          // theListElement.innerHTML += "<span class=\"contactList listPhone\">" + phoneNumber + "</span>";
-          // theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doEdit(" + contactId + ",'" + firstName + "','" + lastName + "','" + email + "','" + phoneNumber + "', 'edit' );\">Edit</button>";
-          // theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doDelete(" + contactId + "); doSearch(); reload(); doEdit(" + contactId + ",'" + firstName + "','" + lastName + "','" + email + "','" + phoneNumber + "', 'delete' ); \">Delete</button>";
-          // if(i < jsonObject.results.length - 1)
-          // {
-          //   contactsList += "<br />\r\n";
-          // }
-
-
 
           // for edit
           if (contactId == editContactId)
@@ -445,6 +488,26 @@ function doUpdate()
   {
     updateResultFieldWithError(true, "editResult", "Email or Phone Number must be filled");
     return;
+  }
+  else if (email != "")
+  {
+    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  
+    if(!(mailformat.test(email)))
+    {
+      updateResultFieldWithError(true, "editResult", "Email is not a valid email");
+      return;
+    }
+  }
+  else if (phone != "")
+  {
+    var numberformat = /^[0-9]+$/;
+  
+    if(!(numberformat.test(phone)))
+    {
+      updateResultFieldWithError(true, "editResult", "Phone Number is not a valid number");
+      return;
+    }
   }
 
   updateResultFieldWithError(false, "editResult", "");

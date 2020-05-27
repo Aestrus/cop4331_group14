@@ -3,23 +3,27 @@
   <head>
     <title>Contact Manager</title>
     <meta charset="utf-8">
+    <script rel="text/javascript" src="js/md5.js"></script>
     <script rel="text/javascript" src="js/app.js"></script>
     <link rel="stylesheet" type="text/css" href="css/main.css"></link>
+    <link rel="shortcut icon" type="image/png" href="images/contactManager.png">
   </head>
   <body>
     <div id="content">
       <h1>Sign Up for the App</h1>
-      <label for="firstname"><b>First Name</b></label>
-      <input type="text" name="firstName" id="firstName" placeholder="First Name" required><br />
-      <label for="lastname"><b>Last Name</b></label>
-      <input type="text" name="lastName" id="lastName" placeholder="Last Name" required><br />
-      <label for="email"><b>Email</b></label>
-      <input type="text" name="email" id="email" placeholder="example@example.com" required><br />
-      <label for="password">Password</label>
-      <input type="password" name="password" id="password" placeholder="password" required><br />
-      <span id="signupResult"></span>
-      <button type="button" id="signupButton" onclick="doSignup();">Sign up</button>
-      <button type="button" onclick="goSignIns();">Sign In</button>
+      <form action="" autocomplete="on">
+        <label for="firstname"><b>First Name</b></label>
+        <input type="text" name="firstName" id="firstName" placeholder="First Name" autocomplete="on" required><br />
+        <label for="lastname"><b>Last Name</b></label>
+        <input type="text" name="lastName" id="lastName" placeholder="Last Name" autocomplete="on" required><br />
+        <label for="email"><b>Email</b></label>
+        <input type="text" name="email" id="email" placeholder="example@example.com" autocomplete="on" required><br />
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" placeholder="password" autocomplete="on" required><br />
+        <span id="signupResult"></span>
+        <button type="button" id="signupButton" onclick="doSignup();">Sign up</button>
+        <button type="button" onclick="goSignIns();">Sign In</button>
+      </form>
     </div>
   </body>
 </html>
