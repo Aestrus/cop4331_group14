@@ -3,16 +3,41 @@ var extension = "php";
 var userId = 0;
 var userFirstName;
 
-var filter = "contact_id";
+var filter = "date_created ASC";
 var listOfContacts;
-var toggleindex = -1;
+var editContactId = -1;
+var editFirstName;
+var editLastName;
+var editEmail;
+var editPhoneNumber;
+var keepLogin;
 
 function setfilter(wantedFilter) {
+  document.getElementById("filterId").innerText = "Filtering by";
+
+  if (wantedFilter == "first_name") {
+    document.getElementById("filterId").innerText += " First Name";
+  }
+  else if (wantedFilter == "last_name") {
+    document.getElementById("filterId").innerText += " Last Name";
+  }
+  else if (wantedFilter == "email") {
+    document.getElementById("filterId").innerText += " Email";
+  }
+  else if (wantedFilter == "phone_number") {
+    document.getElementById("filterId").innerText += " Phone Number";
+  }
+  else if (wantedFilter == "date_created") {
+    document.getElementById("filterId").innerText += " Date Created";
+  }
+
   if (filter == (wantedFilter + " ASC")) {
     filter = wantedFilter + " DESC";
+    document.getElementById("filterId").innerText += " Descending";
   }
   else {
     filter = wantedFilter + " ASC";
+    document.getElementById("filterId").innerText += " Ascending";
   }
 }
 
@@ -26,12 +51,32 @@ function reload() {
 
 function doSignup() {
 
-  var email = document.getElementById("email").value;
-  var password = document.getElementById("password").value;
   var firstName = document.getElementById("firstName").value;
   var lastName = document.getElementById("lastName").value;
+  var email = document.getElementById("email").value;
+  var password = document.getElementById("password").value;
 
-  var jsonPayload = '{"firstName" : "' + firstName + '", "lastName" : "' + lastName + '", "email" : "' + email + '", "password" : "' + password + '"}';
+  if (firstName == "" && lastName == "" && email == "" && password == "") {
+    updateResultFieldWithError(true, "signupResult", "All fields must be filled out");
+    return;
+  }
+
+  var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+  if (!(mailformat.test(email))) {
+    updateResultFieldWithError(true, "signupResult", "Email is not a valid email");
+    return;
+  }
+
+  updateResultFieldWithError(false, "signupResult", "");
+
+  firstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
+  lastName = lastName.charAt(0).toUpperCase() + lastName.slice(1);
+
+  // hashing password
+  var hash = md5(password);
+
+  var jsonPayload = '{"firstName" : "' + firstName + '", "lastName" : "' + lastName + '", "email" : "' + email + '", "password" : "' + hash + '"}';
   var url = '/phpscripts/signup.' + extension;
 
   var xhr = new XMLHttpRequest();
@@ -44,16 +89,19 @@ function doSignup() {
 
     var jsonObject = JSON.parse(xhr.response);
 
-    userId = jsonObject.id;
+    userId = jsonObject.userId;
 
     if (userId < 1) {
-      updateResultFieldWithError(true, "signupResult", "Could not create account");
+      updateResultFieldWithError(true, "signupResult", "Email is already being used");
       return;
     }
+    else {
+      updateResultFieldWithError(false, "signupResult", "Sign up successful. Please sign in. You are being redirected.");
 
-    email = jsonObject.email;
+      goHome();
 
-    updateResultFieldWithError(false, "signupResult", "Sign up successful. Please sign in. You are being redirected.");
+    }
+
 
     goHome();
   } catch (err) {
@@ -64,13 +112,13 @@ function doSignup() {
 function doSignin() {
   var email = document.getElementById("email").value;
   var password = document.getElementById("password").value;
-  var keepLogin = document.getElementById("keepLoggedin").checked == true;
+  keepLogin = document.getElementById("keepLoggedin").checked == true;
 
-  console.log(keepLogin + "=====");
+  // hashing password
+  var hash = md5(password);
 
-  var jsonPayload =
-    '{"email" : "' + email + '", "password" : "' + password + '"}';
-  var url = "/phpscripts/signin." + extension;
+  var jsonPayload = '{"email" : "' + email + '", "password" : "' + hash + '"}';
+  var url = '/phpscripts/signin.' + extension;
 
   var xhr = new XMLHttpRequest();
   xhr.open("POST", url, false);
@@ -97,7 +145,6 @@ function doSignin() {
     }
 
     updateResultFieldWithError(false, "signinResult", "Login successful. Welcome " + firstName + " " + lastName + ". Redirecting you to the home page.");
-
     saveCookie(keepLogin);
     goContacts();
   } catch (err) {
@@ -115,13 +162,53 @@ function doSignout() {
 
 function doAdd() {
   var firstName = document.getElementById("addFirstName").value;
-  document.getElementById("addFirstName").value = "";
   var lastName = document.getElementById("addLastName").value;
-  document.getElementById("addLastName").value = "";
   var email = document.getElementById("addEmail").value;
-  document.getElementById("addEmail").value = "";
   var phone = document.getElementById("addPhone").value;
+
+  if (firstName == "" && lastName == "" && email == "" && phone == "") {
+    updateResultFieldWithError(true, "addResult", "Can't add empty contact");
+    return;
+  }
+  else if (firstName == "" && lastName == "") {
+    updateResultFieldWithError(true, "addResult", "First or Last Name must be filled");
+    return;
+  }
+  else if (email == "" && phone == "") {
+    updateResultFieldWithError(true, "addResult", "Email or Phone Number must be filled");
+    return;
+  }
+  else if (email != "") {
+    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+    if (!(mailformat.test(email))) {
+      updateResultFieldWithError(true, "addResult", "Email is not a valid email");
+      return;
+    }
+  }
+  else if (phone != "") {
+    var numberformat = /^[0-9]+$/;
+
+    if (!(numberformat.test(phone))) {
+      updateResultFieldWithError(true, "addResult", "Phone Number is not a valid number");
+      return;
+    }
+  }
+
+  updateResultFieldWithError(false, "addResult", "");
+
+  document.getElementById("addFirstName").value = "";
+  document.getElementById("addLastName").value = "";
+  document.getElementById("addEmail").value = "";
   document.getElementById("addPhone").value = "";
+
+  var jsonPayload = '{' +
+    '"firstName" : "' + firstName + '", ' +
+    '"lastName" : "' + lastName + '", ' +
+    '"email" : "' + email + '", ' +
+    '"phoneNumber" : "' + phone + '", ' +
+    '"userId" : "' + userId + '"' +
+    '}';
 
   var jsonPayload = '{' +
     '"firstName" : "' + firstName + '", ' +
@@ -146,30 +233,31 @@ function doAdd() {
     var status = 0;
 
     if (status < 0) {
-      updateResultFieldWithError(
-        true,
-        "addResult",
-        "User/Password combination incorrect"
-      );
+      updateResultFieldWithError(true, "Results", "User/Password combination incorrect");
       return;
     }
 
-    updateResultFieldWithError(
-      false,
-      "addResult",
-      "Login successful. Welcome " +
-      firstName +
-      " " +
-      lastName +
-      ". Redirecting you to the home page."
-    );
-  } catch (err) {
-    updateResultFieldWithError(true, "addResult", err.message);
+    updateResultFieldWithError(false, "Results", "Add successful");
+
+  }
+
+  catch (err) {
+    updateResultFieldWithError(true, "Results", err.message);
   }
 }
 
 function doSearch() {
   var search = document.getElementById("searchBar").value;
+
+  // if (search == "")
+  // {
+  //   var theList = document.getElementById("listOfContacts");
+  //   theList.innerHTML += "<tr>";
+  //   theListElement = theList.getElementsByTagName("tr")[0];
+  //   theListElement.innerHTML += "<th class=\"contactList listFName\">Please Search for a Contact</th>";
+  //   return;
+  // }
+
   var jsonPayload = '{' +
     '"search" : "' + search + '", ' +
     '"userId" : "' + userId + '", ' +
@@ -186,7 +274,7 @@ function doSearch() {
   try {
     xhr.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
-        document.getElementById("searchResult").innerHTML = "Contact(s) has been retrieved";
+        document.getElementById("Results").innerHTML = "Contact(s) has been retrieved";
 
         // console.log(xhr.response);  
         var jsonObject = JSON.parse(xhr.response);
@@ -194,13 +282,28 @@ function doSearch() {
         var theList = document.getElementById("listOfContacts");
 
         if (jsonObject.error == "No Records Found") {
-          theList.innerHTML += "<li>";
-          theListElement = theList.getElementsByTagName("li")[0];
-          theListElement.innerHTML += "<span class=\"contactList listFName\">No Results Found</span>";
+          theList.innerHTML += "<tr>";
+          theListElement = theList.getElementsByTagName("tr")[0];
+          theListElement.innerHTML += "<th class=\"contactList listFName\">No Results Found</th>";
           return;
         }
 
+        var flag = false;
+
         listOfContacts = jsonObject;
+
+        theList.innerHTML += "<tr>";
+
+        theListElement = theList.getElementsByTagName("tr")[0];
+
+        theListElement.innerHTML += "<th class=\"contactList listFName\">First Name</th>";
+        theListElement.innerHTML += "<th class=\"contactList listFName\">Last Name</th>";
+        theListElement.innerHTML += "<th class=\"contactList listFName\">Email</th>";
+        theListElement.innerHTML += "<th class=\"contactList listFName\">Phone Number</th>";
+        theListElement.innerHTML += "<th class=\"contactList listFName\">Edit</th>";
+        theListElement.innerHTML += "<th class=\"contactList listFName\">Delete</th>";
+
+
         for (var i = 0; i < jsonObject.results.length; i++) {
           var firstName = listOfContacts.results[i].firstName;
           var lastName = listOfContacts.results[i].lastName;
@@ -208,19 +311,25 @@ function doSearch() {
           var phoneNumber = listOfContacts.results[i].phoneNumber;
           var contactId = listOfContacts.results[i].contactId;
 
-          theList.innerHTML += "<li>";
+          theList.innerHTML += "<tr>";
 
-          theListElement = theList.getElementsByTagName("li")[i];
+          theListElement = theList.getElementsByTagName("tr")[i + 1];
 
-          theListElement.innerHTML += "<span class=\"contactList listFName\">" + firstName + "</span>";
-          theListElement.innerHTML += "<span class=\"contactList listLName\">" + lastName + "</span>";
-          theListElement.innerHTML += "<span class=\"contactList listEmail\">" + email + "</span>";
-          theListElement.innerHTML += "<span class=\"contactList listPhone\">" + phoneNumber + "</span>";
-          theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doEdit(" + i + ", 'edit' );\">Edit</button>";
-          theListElement.innerHTML += "<button type=\"button\" class=\"listButton\" onclick=\"doDelete(" + contactId + "); reload(); doGetContacts(); doEdit(" + i + ", 'delete' ); \">Delete</button>";
-          if (i < jsonObject.results.length - 1) {
-            contactsList += "<br />\r\n";
+          theListElement.innerHTML += "<td class=\"contactList listFName\">" + firstName + "</td>";
+          theListElement.innerHTML += "<td class=\"contactList listLName\">" + lastName + "</td>";
+          theListElement.innerHTML += "<td class=\"contactList listEmail\">" + email + "</td>";
+          theListElement.innerHTML += "<td class=\"contactList listPhone\">" + phoneNumber + "</td>";
+          theListElement.innerHTML += "<td class=\"contactList listPhone\"><button type=\"button\" class=\"listButton\" onclick=\"doEdit(" + contactId + ",'" + firstName + "','" + lastName + "','" + email + "','" + phoneNumber + "', 'edit' );\">Edit</button></td>";
+          theListElement.innerHTML += "<td class=\"contactList listPhone\"><button type=\"button\" class=\"listButton\" onclick=\"doDelete(" + contactId + "); doSearch(); reload(); doEdit(" + contactId + ",'" + firstName + "','" + lastName + "','" + email + "','" + phoneNumber + "', 'delete' ); \">Delete</button></td>";
+
+          // for edit
+          if (contactId == editContactId) {
+            flag = true;
           }
+        }
+        if (!flag) {
+          document.getElementById('togglehide').style.visibility = 'hidden';
+          editContactId = -1;
         }
       }
     };
@@ -230,70 +339,9 @@ function doSearch() {
   }
 }
 
-function doGetContacts() {
-  var jsonPayload = "{" + '"userId" : "' + userId + '"' + "}";
-
-  var url = "/phpscripts/showcontacts." + extension;
-
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", url, false);
-
-  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-
-  try {
-    xhr.send(jsonPayload);
-
-    var jsonObject = JSON.parse(xhr.response);
-
-    listOfContacts = jsonObject;
-
-    var theList = document.getElementById("listOfContacts");
-
-    if (jsonObject.error == "No Records Found") {
-      theList.innerHTML += "<li>";
-      theListElement = theList.getElementsByTagName("li")[0];
-      theListElement.innerHTML +=
-        '<span class="contactList listFName">No Results Found</span>';
-      return;
-    }
-
-    console.log(listOfContacts);
-
-    for (var i = 0; i < listOfContacts.results.length; i++) {
-      // do stuff
-      var firstName = listOfContacts.results[i].firstName;
-      var lastName = listOfContacts.results[i].lastName;
-      var email = listOfContacts.results[i].email;
-      var phoneNumber = listOfContacts.results[i].phoneNumber;
-      var contactId = listOfContacts.results[i].contactId;
-
-      theList.innerHTML += "<li>";
-
-      theListElement = theList.getElementsByTagName("li")[i];
-
-      theListElement.innerHTML +=
-        '<span class="contactList listFName">' + firstName + "</span>";
-      theListElement.innerHTML +=
-        '<span class="contactList listLName">' + lastName + "</span>";
-      theListElement.innerHTML +=
-        '<span class="contactList listEmail">' + email + "</span>";
-      theListElement.innerHTML +=
-        '<span class="contactList listPhone">' + phoneNumber + "</span>";
-      theListElement.innerHTML +=
-        '<button type="button" class="listButton" onclick="doEdit(' +
-        i +
-        ');">Edit</button>';
-      theListElement.innerHTML +=
-        '<button type="button" class="listButton" onclick="doDelete(' +
-        listOfContacts.results[i].contactId +
-        '); reload(); doGetContacts(); ">Delete</button>';
-
-      if (i < listOfContacts.length - 1) theList.innerHTML += "</ br>";
-    }
-  } catch (err) {
-    console.log("something went wrong");
-    updateResultFieldWithError(true, "addResult", err.message);
-  }
+  catch (err) {
+  updateResultFieldWithError(true, "Results", err.message);
+}
 }
 
 function doEdit(index) {
@@ -366,31 +414,30 @@ function doGetContacts() {
   }
 
   catch (err) {
-    // console.log("something went wrong");
-    updateResultFieldWithError(true, "addResult", err.message);
+    updateResultFieldWithError(true, "Results", err.message);
   }
 
 }
 
-function doEdit(index, from) {
+function doEdit(newContactId, newFirstName, newLastName, newEmail, newPhoneNumber, from) {
   if (from == "delete") {
-    if (toggleindex == index) {
+    if (editContactId == newContactId) {
       document.getElementById('togglehide').style.visibility = 'hidden';
-      toggleindex = -1;
+      editContactId = -1;
     }
   }
   else if (from == "edit") {
-    if (toggleindex == index) {
+    if (editContactId == newContactId) {
       document.getElementById('togglehide').style.visibility = 'hidden';
-      toggleindex = -1;
+      editContactId = -1;
     }
     else {
       document.getElementById('togglehide').style.visibility = 'visible';
-      toggleindex = index;
-      document.getElementById("updateFirstName").value = listOfContacts.results[index].firstName;
-      document.getElementById("updateLastName").value = listOfContacts.results[index].lastName;
-      document.getElementById("updateEmail").value = listOfContacts.results[index].email;
-      document.getElementById("updatePhone").value = listOfContacts.results[index].phoneNumber;
+      editContactId = newContactId;
+      document.getElementById("updateFirstName").value = newFirstName;
+      document.getElementById("updateLastName").value = newLastName;
+      document.getElementById("updateEmail").value = newEmail;
+      document.getElementById("updatePhone").value = newPhoneNumber;
     }
   }
   else {
@@ -404,7 +451,48 @@ function doUpdate() {
   var lastName = document.getElementById("updateLastName").value;
   var email = document.getElementById("updateEmail").value;
   var phone = document.getElementById("updatePhone").value;
-  var contactId = listOfContacts.results[toggleindex].contactId;
+  var contactId = editContactId;
+
+  if (firstName == "" && lastName == "" && email == "" && phone == "") {
+    updateResultFieldWithError(true, "editResult", "Can't add empty contact");
+    return;
+  }
+  else if (firstName == "" && lastName == "") {
+    updateResultFieldWithError(true, "editResult", "First or Last Name must be filled");
+    return;
+  }
+  else if (email == "" && phone == "") {
+    updateResultFieldWithError(true, "editResult", "Email or Phone Number must be filled");
+    return;
+  }
+  else if (email != "") {
+    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+    if (!(mailformat.test(email))) {
+      updateResultFieldWithError(true, "editResult", "Email is not a valid email");
+      return;
+    }
+  }
+  else if (phone != "") {
+    var numberformat = /^[0-9]+$/;
+
+    if (!(numberformat.test(phone))) {
+      updateResultFieldWithError(true, "editResult", "Phone Number is not a valid number");
+      return;
+    }
+  }
+
+  updateResultFieldWithError(false, "editResult", "");
+
+  document.getElementById('togglehide').style.visibility = 'hidden';
+  editContactId = -1;
+
+  document.getElementById("updateFirstName").value = "";
+  document.getElementById("updateLastName").value = "";
+  document.getElementById("updateEmail").value = "";
+  document.getElementById("updatePhone").value = "";
+
+
 
   var jsonPayload = '{' +
     '"firstName" : "' + firstName + '", ' +
@@ -429,20 +517,26 @@ function doUpdate() {
     var status = 0;
 
     if (status < 0) {
-      updateResultFieldWithError(true, "updateResult", "Couldn't update contact.");
+      updateResultFieldWithError(true, "Results", "Couldn't update contact.");
       return;
     }
 
-    updateResultFieldWithError(false, "updateResult", "Update successful.");
+    updateResultFieldWithError(false, "Results", "Update successful.");
 
   }
 
   catch (err) {
-    updateResultFieldWithError(true, "updateResult", err.message);
+    updateResultFieldWithError(true, "Results", err.message);
   }
 }
 
 function doDelete(contactId) {
+  var answer = confirm("Are you sure you want to delete this contact?");
+
+  if (!answer) {
+    console.log("aborting delete");
+    return;
+  }
 
   var jsonPayload = '{' +
     '"contactId" : "' + contactId + '"' +
@@ -463,16 +557,16 @@ function doDelete(contactId) {
     var status = 0;
 
     if (status < 0) {
-      updateResultFieldWithError(true, "updateResult", "Couldn't delete contact.");
+      updateResultFieldWithError(true, "Results", "Couldn't delete contact.");
       return;
     }
 
-    updateResultFieldWithError(false, "updateResult", "Delete successful.");
+    updateResultFieldWithError(false, "Results", "Delete successful.");
 
   }
 
   catch (err) {
-    updateResultFieldWithError(true, "updateResult", err.message);
+    updateResultFieldWithError(true, "Results", err.message);
   }
 }
 

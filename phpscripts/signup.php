@@ -17,6 +17,25 @@
     } 
     else
     {
+        $sql = "SELECT * FROM list_of_users WHERE email = '$email'";
+        if ( $result = $conn->query($sql) != TRUE)
+        {
+            returnWithError( $conn->error);
+        }
+        else
+        {
+            $result = $conn->query($sql);
+            if ($result->num_rows > 0)
+            {
+                $userId = -1;
+                $firstName = "";
+                $lastName = "";
+                $email = "";
+                returnWithInfo( $userId, $firstName, $lastName, $email);
+                return;
+            }
+        }
+
         // create query
         $sql = "INSERT INTO list_of_users(first_name,last_name,email,password) VALUES ('$firstName','$lastName','$email','$password')";
     
@@ -39,16 +58,17 @@
             if ($result->num_rows > 0)
             {
                 $row = $result->fetch_assoc();
-                $userId .= $row["user_id"];
-                $firstName .= $row["first_name"];
-                $lastName .= $row["last_name"];
+                $userId = $row["user_id"];
+                $firstName = $row["first_name"];
+                $lastName = $row["last_name"];
+                $email = $row["email"];
             }
             else
             {
                 $userId .= "-1";
                 $firstName .= "";
                 $lastName .= "";
-                $email = "";
+                $email .= "";
             }
     
         }
