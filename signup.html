@@ -23,7 +23,7 @@
   <div class="wrapper">
     <div class="login-area">
       <h1 class="title-2">Sign Up</h1>
-      <span id="signinResult"></span>
+      <span id="signupResult"></span>
       <br>
       <label class="field-label"><b>First Name</b></label>
       <input type="text" name="firstName" id="firstName" placeholder="First Name" required class="input">
@@ -38,10 +38,10 @@
       <input type="password" name="password" class="input" required placeholder="Password" id="password">
       <br>
       <br>
-      <button type="button" id="signUpButton" onclick="goSignUp();" class="log-in">Sign Up</button>
+      <button type="button" id="signUpButton" onclick="doSignup(); goSignIns();" class="log-in">Sign Up</button>
     </div>
 
-    <button type="button" id="signinButton" onclick="doSignin();" class="sign-up">Log In</button>
+    <button type="button" id="signinButton" onclick="goSignIns();" class="sign-up">Log In</button>
   </div>
 
   <script rel="text/javascript" src="js/particles.min.js"></script>

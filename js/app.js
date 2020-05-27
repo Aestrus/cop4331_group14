@@ -249,14 +249,13 @@ function doAdd() {
 function doSearch() {
   var search = document.getElementById("searchBar").value;
 
-  // if (search == "")
-  // {
-  //   var theList = document.getElementById("listOfContacts");
-  //   theList.innerHTML += "<tr>";
-  //   theListElement = theList.getElementsByTagName("tr")[0];
-  //   theListElement.innerHTML += "<th class=\"contactList listFName\">Please Search for a Contact</th>";
-  //   return;
-  // }
+  if (search == "") {
+    var theList = document.getElementById("listOfContacts");
+    theList.innerHTML += "<tr>";
+    theListElement = theList.getElementsByTagName("tr")[0];
+    theListElement.innerHTML += "<th class=\"contactList listFName\">Please Search for a Contact</th>";
+    return;
+  }
 
   var jsonPayload = '{' +
     '"search" : "' + search + '", ' +
@@ -337,11 +336,6 @@ function doSearch() {
   } catch (err) {
     updateResultFieldWithError(true, "searchResult", err.message);
   }
-}
-
-  catch (err) {
-  updateResultFieldWithError(true, "Results", err.message);
-}
 }
 
 function doEdit(index) {
@@ -667,26 +661,6 @@ function readCookie() {
 
 function goHome() {
   setTimeout(function () { window.location.href = "index.html"; }, 5000);
-}
-
-function goHome(time) {
-  setTimeout(function () { window.location.href = "index.html"; }, time);
-}
-
-function goContacts() {
-  setTimeout(function () { window.location.href = "contacts.html"; }, 0000);
-}
-
-function goSignIns() {
-  setTimeout(function () { window.location.href = "signin.html"; }, 0000);
-}
-
-function goSignUp() {
-  setTimeout(function () { window.location.href = "signup.html"; }, 0000);
-}
-
-function goForgetPassword() {
-  setTimeout(function () { window.location.href = "forgotPassword.html"; }, 0000);
 }
 
 function goContacts() {
