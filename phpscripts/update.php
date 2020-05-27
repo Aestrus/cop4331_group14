@@ -18,6 +18,17 @@
 	} 
 	else
 	{
+		// check for empty field 
+		if (empty($firstName) && empty($lastName))
+		{
+		  returnWithError("First or Last Name must be filled");
+		  return;
+		}
+		else if (empty($email) && empty($phone))
+		{
+		  returnWithError("Email or Phone Number must be filled");
+		  return;
+		}
 		// create query for sql
 		$sql = "UPDATE list_of_contacts SET first_name = '$firstName',last_name = '$lastName',email = '$email',phone_number = '$phoneNumber' WHERE contact_id = '$contactId'";
 

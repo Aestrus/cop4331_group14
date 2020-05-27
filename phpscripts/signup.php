@@ -6,7 +6,8 @@
     $lastName = $inData["lastName"];
     $email = $inData["email"];
     $password = $inData["password"];
-
+    // hash password
+    $password = hash("sha256",$password);
     // connect to database
     $conn = new mysqli("localhost", "test", "testing123", "contact_manager");
 
