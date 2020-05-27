@@ -88,6 +88,20 @@ body{
 }
 
 /* Input Box Styling */
+.wrapper #forgotEmail{
+  margin-bottom: 15px;
+  margin-left: 8%;
+}
+
+.wrapper #forgotFirstName{
+  margin-bottom: 15px;
+}
+
+.wrapper #forgotLastName{
+  margin-bottom: 15px;
+  margin-left: 2%;
+}
+
 .wrapper #email{
   margin-bottom: 15px;
   margin-left: 8%;
