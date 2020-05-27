@@ -449,10 +449,15 @@ function doUpdate()
 
   updateResultFieldWithError(false, "editResult", "");
 
+  document.getElementById('togglehide').style.visibility='hidden';
+  editContactId = -1;
+
   document.getElementById("updateFirstName").value = "";
   document.getElementById("updateLastName").value = "";
   document.getElementById("updateEmail").value = "";
   document.getElementById("updatePhone").value = "";
+
+
 
   var jsonPayload = '{'+
   '"firstName" : "' + firstName + '", ' +
