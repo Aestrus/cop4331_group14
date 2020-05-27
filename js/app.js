@@ -172,6 +172,63 @@ function doSignin()
 
 }
 
+function doForgotPassword()
+{
+  var firstName = document.getElementById("forgotFirstName").value;
+  var lastName = document.getElementById("forgotLastName").value;
+  var email = document.getElementById("forgotEmail").value;
+  var password = document.getElementById("forgotPassword").value;
+
+  if (firstName == "" || lastName == "" || email == "" || password == "")
+  {
+    updateResultFieldWithError(true, "forgotPasswordResults", "All fields must be filled out");
+    return;
+  }
+
+  firstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
+  lastName = lastName.charAt(0).toUpperCase() + lastName.slice(1);
+
+  // hashing password
+  var hash = md5( password );
+
+  var jsonPayload = '{"firstName" : "' + firstName + '", "lastName" : "' + lastName + '", "email" : "' + email + '", "password" : "' + hash + '"}';
+  var url ='/phpscripts/signup.' + extension;
+  
+  var xhr = new XMLHttpRequest();
+  xhr.open("POST", url, false);
+  
+  xhr.setRequestHeader("Content-type" , "application/json; charset=UTF-8");
+
+  try
+  {
+    xhr.send(jsonPayload);
+
+    var jsonObject = JSON.parse( xhr.response );
+
+    userId = jsonObject.userId;
+
+    if (userId < 1)
+    {
+      updateResultFieldWithError(true, "signupResult", "Email is already being used");
+      return;
+    }
+    else
+    {
+      updateResultFieldWithError(false, "signupResult", "Sign up successful. Please sign in. You are being redirected.");
+      
+      goHome();
+
+    }
+
+
+  }
+
+  catch(err)
+  {
+    updateResultFieldWithError(true, "signupResult", err.message);
+  }
+}
+
 function doSignout()
 {
   deleteCookie();
