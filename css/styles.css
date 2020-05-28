@@ -102,6 +102,11 @@ body{
   margin-left: 2%;
 }
 
+.wrapper #forgotPassword{
+  margin-bottom: 15px;
+  margin-left: 3.5%;
+}
+
 .wrapper #email{
   margin-bottom: 15px;
   margin-left: 8%;
