@@ -178,56 +178,63 @@ function doForgotPassword()
   var lastName = document.getElementById("forgotLastName").value;
   var email = document.getElementById("forgotEmail").value;
   var password = document.getElementById("forgotPassword").value;
-
+ 
   if (firstName == "" || lastName == "" || email == "" || password == "")
   {
     updateResultFieldWithError(true, "forgotPasswordResults", "All fields must be filled out");
     return;
   }
-
+ 
+  var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+ 
+  if(!(mailformat.test(email)))
+  {
+    updateResultFieldWithError(true, "forgotPasswordResults", "Email is not a valid email");
+    return;
+  }
+ 
+ 
   firstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
   lastName = lastName.charAt(0).toUpperCase() + lastName.slice(1);
-
+ 
   // hashing password
   var hash = md5( password );
-
+ 
   var jsonPayload = '{"firstName" : "' + firstName + '", "lastName" : "' + lastName + '", "email" : "' + email + '", "password" : "' + hash + '"}';
-  var url ='/phpscripts/signup.' + extension;
-  
+  var url ='/phpscripts/forgotPassword.' + extension;
+ 
+ 
   var xhr = new XMLHttpRequest();
   xhr.open("POST", url, false);
   
   xhr.setRequestHeader("Content-type" , "application/json; charset=UTF-8");
-
+ 
   try
   {
     xhr.send(jsonPayload);
-
+ 
     var jsonObject = JSON.parse( xhr.response );
-
-    userId = jsonObject.userId;
-
-    if (userId < 1)
+ 
+    if (jsonObject.result == "Success")
     {
-      updateResultFieldWithError(true, "signupResult", "Email is already being used");
-      return;
+      updateResultFieldWithError(false, "forgotPasswordResults", "Update Password Success Redirecting to Sign in");
+      setTimeout(() => {
+        goSignIns()
+      }, 3000);
     }
     else
     {
-      updateResultFieldWithError(false, "signupResult", "Sign up successful. Please sign in. You are being redirected.");
-      
-      goHome();
-
+      updateResultFieldWithError(true, "forgotPasswordResults", "Did not find a account that matches first name, last name, and email");
     }
-
-
+ 
   }
-
+ 
   catch(err)
   {
-    updateResultFieldWithError(true, "signupResult", err.message);
+    updateResultFieldWithError(true, "console.log(jsonObject.result);", err.message);
   }
 }
+
 
 function doSignout()
 {
