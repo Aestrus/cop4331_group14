@@ -38,7 +38,31 @@ body div{
 
 #addContact div label{
   width: 100px;
-  display: inline-block;
+  display: inline;
+}
+
+#addFirstName{
+  margin-left: 20px;
+}
+
+#addLastName{
+  margin-left: 29px;
+}
+
+#addEmail{
+  margin-left: 68px;
+}
+
+#updateFirstName{
+  margin-left: 20px;
+}
+
+#updateLastName{
+  margin-left: 29px;
+}
+
+#updateEmail{
+  margin-left: 68px;
 }
 
 #addContact button{
@@ -67,7 +91,7 @@ body div{
 
 #edit div label{
   width: 100px;
-  display: inline-block;
+  display: inline;
 }
 
 #edit button{

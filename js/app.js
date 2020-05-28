@@ -217,14 +217,15 @@ function doForgotPassword()
  
     if (jsonObject.result == "Success")
     {
-      updateResultFieldWithError(false, "forgotPasswordResults", "Update Password Success Redirecting to Sign in");
+      document.getElementById("forgotPasswordResults").style.color = "green";
+      updateResultFieldWithError(false, "forgotPasswordResults", "Update Password Success Returning to Sign in");
       setTimeout(() => {
         goSignIns()
-      }, 3000);
+      }, 1000);
     }
     else
     {
-      updateResultFieldWithError(true, "forgotPasswordResults", "Did not find a account that matches first name, last name, and email");
+      updateResultFieldWithError(true, "forgotPasswordResults", "Did not find a account that matches first name, last name, or email");
     }
  
   }

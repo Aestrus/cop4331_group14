@@ -90,16 +90,17 @@ body{
 /* Input Box Styling */
 .wrapper #forgotEmail{
   margin-bottom: 15px;
-  margin-left: 8%;
+  margin-left: 16%;
 }
 
 .wrapper #forgotFirstName{
   margin-bottom: 15px;
+  margin-left: 7.5%;
 }
 
 .wrapper #forgotLastName{
   margin-bottom: 15px;
-  margin-left: 2%;
+  margin-left: 9.5%;
 }
 
 .wrapper #forgotPassword{
@@ -122,7 +123,7 @@ body{
 }
 
 .wrapper #password{
-  margin-left: 3%;
+  margin-left: 3.5%;
 }
 
 .field-label{
@@ -185,11 +186,11 @@ background: none;
 .wrapper .sign-up{
   text-align: center;
   height: 45px;
-  width: 50%;
+  width: 55%;
   background-color: #b69b03;
   border-radius: 50px;
   position: relative;
-  margin-left: 25%;
+  margin-left: 22.5%;
   line-height: 45px;
   font-weight: bold;
   color: #fff;
@@ -200,7 +201,7 @@ background: none;
   opacity: 1;
   transition: 0.3s;
   font-family: Oxygen Mono;
-  font-size: 16px;
+  font-size: 12px;
 }
 
 /* Sign-Up Hover */
@@ -259,4 +260,55 @@ background: none;
   font-family: Oxygen Mono;
   color: #d3bc38;
   font-size: 25px;
+}
+
+.wrapper .forgot-sign-up{
+  margin-top: 10px;
+  font-size: 14px;
+  text-align: center;
+  margin-left: 17.5%;
+  border: none;
+  background: none;
+  color: #707070;
+  cursor: pointer;
+  transition: 0.2s;
+  font-family: Oxygen Mono;
+}
+
+/* Reset Pass Button */
+.wrapper .reset-btn{
+  text-align: center;
+  height: 45px;
+  width: 50%;
+  background-color: #b69b03;
+  border-radius: 50px;
+  position: relative;
+  margin-left: 23%;
+  line-height: 45px;
+  font-weight: bold;
+  color: #fff;
+  margin-top: 10px;
+  cursor: pointer;
+  border: none;
+  opacity: 1;
+  transition: 0.3s;
+  font-size: 18px;
+  font-family: Oxygen Mono;
+}
+
+
+.wrapper .reset-btn:hover{
+  opacity: 0.6;
+}
+
+.wrapper .forgot-sign-up:hover{
+  color: #d3bc38;
+}
+
+#forgotPasswordResults{
+  display: block;
+  text-align: center;
+  margin-right: 5%;
+  color: rgb(255, 0, 0);
+  font-size: 14px;
 }
