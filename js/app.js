@@ -238,7 +238,6 @@ function doForgotPassword()
   }
 }
 
-
 function doSignout()
 {
   deleteCookie();
@@ -721,7 +720,9 @@ function updateCookie(checked)
 
 function deleteCookie()
 {
-  document.cookie = ";expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+  var date = new Date();
+  date.setTime(date.getTime()-1000);	
+  document.cookie = "firstName=" + userFirstName + ", lastName=" + userLastName + ", userId=" + userId + ";expires=" + date.toGMTString();
 }
 
 function readCookie()
