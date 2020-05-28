@@ -336,6 +336,14 @@ function doSearch()
 {
   var search = document.getElementById("searchBar").value;
 
+    if (search == "")
+  {
+    var theList = document.getElementById("listOfContacts");
+    theList.innerHTML += "<tr>";
+    theListElement = theList.getElementsByTagName("tr")[0];
+    theListElement.innerHTML += "<th class=\"contactList listFName\">Please Search for a Contact</th>";
+    return;
+  }
 
   // Danger zone begin
   if (search == "")
