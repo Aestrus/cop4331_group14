@@ -24,8 +24,11 @@
 		  returnWithError("First or Last Name must be filled");
 		  return;
 		}
-		else if (empty($email) && empty($phone))
+		else if (empty($email) && empty($phoneNumber))
 		{
+			echo $email . "\n";
+			echo $phoneNumber . "\n";
+			echo "123";
 		  returnWithError("Email or Phone Number must be filled");
 		  return;
 		}
