@@ -336,7 +336,7 @@ function doSearch()
 {
   var search = document.getElementById("searchBar").value;
 
-    if (search == "")
+  if (search == "")
   {
     var theList = document.getElementById("listOfContacts");
     theList.innerHTML += "<tr>";
