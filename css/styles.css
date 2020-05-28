@@ -312,3 +312,9 @@ background: none;
   color: rgb(255, 0, 0);
   font-size: 14px;
 }
+
+#signupResult{
+  text-align: center;
+  color: white;
+  display: block;
+}

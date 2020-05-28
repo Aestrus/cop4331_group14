@@ -112,7 +112,7 @@ function doSignup()
     }
     else
     {
-      updateResultFieldWithError(false, "signupResult", "Sign up successful. Please sign in. You are being redirected.");
+      updateResultFieldWithError(false, "signupResult", "Sign up successful.");
       
       goHome();
 
