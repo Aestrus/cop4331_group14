@@ -37,6 +37,7 @@ body div{
 }
 
 #addContact div label{
+<<<<<<< HEAD
   width: 100px;
   display: inline;
 }
@@ -63,6 +64,8 @@ body div{
 
 #updateEmail{
   margin-left: 68px;
+  width: 150px;
+  display: inline-block;
 }
 
 #addContact button{

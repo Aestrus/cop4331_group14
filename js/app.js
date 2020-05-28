@@ -2,6 +2,7 @@ var urlBase = 'localhost';
 var extension = 'php';
 var userId = 0;
 var userFirstName;
+var userLastName;
 
 var filter = "date_created ASC";
 var listOfContacts;
@@ -57,6 +58,7 @@ function updateName()
 function reload()
 {
   document.getElementById("listOfContacts").innerHTML = "";
+  updateCookie(keepLogin);
 }
 
 function doSignup()
@@ -73,7 +75,7 @@ function doSignup()
     return;
   }
 
-  var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,24})+$/;
 
   if(!(mailformat.test(email)))
   {
@@ -334,14 +336,17 @@ function doSearch()
 {
   var search = document.getElementById("searchBar").value;
 
-  // if (search == "")
-  // {
-  //   var theList = document.getElementById("listOfContacts");
-  //   theList.innerHTML += "<tr>";
-  //   theListElement = theList.getElementsByTagName("tr")[0];
-  //   theListElement.innerHTML += "<th class=\"contactList listFName\">Please Search for a Contact</th>";
-  //   return;
-  // }
+
+  // Danger zone begin
+  if (search == "")
+  {
+    var theList = document.getElementById("listOfContacts");
+    theList.innerHTML += "<tr>";
+    theListElement = theList.getElementsByTagName("tr")[0];
+    theListElement.innerHTML += "<th class=\"contactList listFName\">Please Search for a Contact</th>";
+    return;
+  }
+  // Danger zone end
 
   var jsonPayload = '{'+
   '"search" : "' + search + '", ' +
@@ -699,6 +704,22 @@ function saveCookie(checked)
   document.cookie = "firstName=" + firstName + ", lastName=" + lastName + ", userId=" + userId + ";expires=" + date.toGMTString();
 }
 
+function updateCookie(checked)
+{
+  var minutes;
+  if (checked)
+  {
+    minutes = 43800;
+  }
+  else
+  {
+    minutes = 20;
+  }
+	var date = new Date();
+  date.setTime(date.getTime()+(minutes*60*1000));	
+  document.cookie = "firstName=" + userFirstName + ", lastName=" + userLastName + ", userId=" + userId + ";expires=" + date.toGMTString();
+}
+
 function deleteCookie()
 {
   document.cookie = ";expires=Thu, 01 Jan 1970 00:00:01 GMT;";
@@ -721,7 +742,7 @@ function readCookie()
     }
     if(tokens[0] == "lastName")
     {
-      lastName = tokens[1];
+      userLastName = tokens[1];
     }
     if(tokens[0] == "userId")
     {
