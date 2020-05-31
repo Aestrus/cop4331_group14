@@ -247,9 +247,14 @@ background: none;
 }
 
 #signinResult{
-  color: rgb(255, 91, 91);
+  color: rgb(91, 255, 91);
   font-size: 14px;
+  display: block;
   margin-left: 15%;
+}
+
+.errorMessage{
+  color: rgb(255, 91, 91) !important;
 }
 
 .title-2{
